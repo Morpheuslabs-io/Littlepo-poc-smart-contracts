@@ -1,0 +1,3 @@
+build/
+web3deployment/node_modules/
+*.log
