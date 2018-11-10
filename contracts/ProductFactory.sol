@@ -12,8 +12,8 @@ contract ProductFactory is UserRole {
 
     function createProduct(
         uint _productId,
-        string _productName,
-        string _location,
+        bytes32 _productName,
+        bytes32 _location,
         uint _containerId,
         uint _containerType
     ) public onlyAdmin returns (bool) {

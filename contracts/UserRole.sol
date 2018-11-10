@@ -11,7 +11,7 @@ contract UserRole is Ownable {
     uint constant internal MAX_GROUP_SIZE = 20;
 
     modifier onlyOperator() {
-        require(operators[msg.sender]);
+        require(owner == msg.sender || operators[msg.sender]);
         _;
     }
     modifier onlyAdmin() {

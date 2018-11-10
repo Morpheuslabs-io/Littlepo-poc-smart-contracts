@@ -3,27 +3,37 @@ pragma solidity ^0.4.24;
 import "./UserRole.sol";
 import "./BaseProduct.sol";
 import "./BaseNode.sol";
+import "./LittlepoProductHistory.sol";
+import "./ProductFactory.sol";
 
 contract LittlepoProductTracking is UserRole {
-    mapping(bytes32 => BaseNode) internal nodes;
-    uint internal counter = 1;
-    bytes32[20] internal nodeList;
+    LittlepoProductHistory public littlepoHistory;
+    ProductFactory public productFactory;
 
-    function registerNode(bytes32 _nodeName, BaseNode _baseNodeAddress) public onlyAdmin returns(bool) {
-        require(nodes[_nodeName] == address(0), "Node is added already");
+    mapping(bytes32 => uint[]) internal histories;
+    mapping(uint => bytes32) internal nodeActions;
 
-        nodes[_nodeName] = _baseNodeAddress;
-        nodeList[counter] = _nodeName;
-        counter++;
+    function registerHistory(LittlepoProductHistory _littlepoHistory) public onlyAdmin returns(bool) {
+        require(_littlepoHistory != address(0), "Invalid history address");
+
+        littlepoHistory = _littlepoHistory;
         return true;
     }
 
-    function getNodes() external view returns(bytes32[20]) {
-        return nodeList;
+    function registerProductFactory(ProductFactory _productFactory) public onlyAdmin returns(bool) {
+        require(_productFactory != address(0), "Invalid product factory address");
+        productFactory = _productFactory;
+
+        return true;
+    }
+
+    function getProductBatchByBN(bytes32 _dBatchNo) public view returns (address[]) {
+        return littlepoHistory.getProductBatchByBN(_dBatchNo);
+    }
+
+    function getProductBatchByQR(bytes32 _qrcodeId) public view returns (address[]) {
+        return littlepoHistory.getProductBatchByQR(_qrcodeId);
     }
     
-    function getProductInfo(string _productBatchNo, bytes32 _nodeName) public view returns (BaseProduct) {
-        BaseNode node = nodes[_nodeName];
-        return node.getProductBatchInfo(_productBatchNo);
-    }
+    
 }

@@ -86,7 +86,11 @@ const input = {
     "UserLogin" : fs.readFileSync(contractBuildPath + 'UserLogin.json', 'utf8'),
     "ProductFactory" : fs.readFileSync(contractBuildPath + 'ProductFactory.json', 'utf8'),
     "ProductHarvesterNode" : fs.readFileSync(contractBuildPath + 'ProductHarvesterNode.json', 'utf8'),
-    "LittleProductTracking" : fs.readFileSync(contractBuildPath + 'LittleProductTracking.json', 'utf8'),
+    "ProductPackerNode" : fs.readFileSync(contractBuildPath + 'ProductPackerNode.json', 'utf8'),
+    "LittlepoNode" : fs.readFileSync(contractBuildPath + 'LittlepoNode.json', 'utf8'),
+    "RetailShopNode" : fs.readFileSync(contractBuildPath + 'RetailShopNode.json', 'utf8'),
+    "LittlepoProductHistory" : fs.readFileSync(contractBuildPath + 'LittlepoProductHistory.json', 'utf8'),
+    "LittlepoProductTracking" : fs.readFileSync(contractBuildPath + 'LittlepoProductTracking.json', 'utf8'),
 };
 
 // deployment process
@@ -108,15 +112,64 @@ async function main() {
         await waitForEth();
     }
 
-    const LegalEntityContract = await deployContract(input, "LegalEntity", []);
-    const UserLoginContract = await deployContract(input, "UserLogin", []);
-    const ProductFactory = await deployContract(input, "ProductFactory", []);
-    const ProductHarvesterNode = await deployContract(input, "ProductHarvesterNode", []);
-    const LittleProductTracking = await deployContract(input, "LittleProductTracking", []);
+    const legalEntityContract = await deployContract(input, "LegalEntity", []);
+    const userLoginContract = await deployContract(input, "UserLogin", []);
+    const productFactoryContract = await deployContract(input, "ProductFactory", []);
+    const productHarvesterNodeContract = await deployContract(input, "ProductHarvesterNode", []);
+    const productPackerNodeContract = await deployContract(input, "ProductPackerNode", []);
+    const littlepoNodeContract = await deployContract(input, "LittlepoNode", []);
+    const retailShopNodeContract = await deployContract(input, "RetailShopNode", []);
+    const littlepoProductHistoryContract = await deployContract(input, "LittlepoProductHistory", []);
+    const littlepoProductTrackingContract = await deployContract(input, "LittlepoProductTracking", []);
 
-    // console.log("\nStart transfering ownership of VTAGTokenAdmin to veritag's address", veritagOwnerAddress);
-    // tx = await sendTx(vTAGTokenAdminContract.methods.transferOwnership(veritagOwnerAddress));
-    // console.log("Transfered ownership txHash", tx.transactionHash);
+    //tracking
+    let tx;
+    //registerHistory
+    tx = await sendTx(littlepoProductTrackingContract.methods.registerHistory(littlepoProductHistoryContract.options.address));
+    console.log("==> registerHistory", tx.transactionHash);
+    //registerProductFactory
+    tx = await sendTx(littlepoProductTrackingContract.methods.registerProductFactory(productFactoryContract.options.address));
+    console.log("==> registerProductFactory", tx.transactionHash);
+
+    //littlepoProductHistoryContract
+    // registerNode
+    let nodeName = await productHarvesterNodeContract.methods.getNodeName().call();
+    console.log("==> Node name", web3.utils.toAscii(nodeName));
+
+    tx = await sendTx(littlepoProductHistoryContract.methods.registerNode(nodeName, productHarvesterNodeContract.options.address));
+    console.log("==> register ProductHarvest node", tx.transactionHash);
+
+    nodeName = await productPackerNodeContract.methods.getNodeName().call();
+    console.log("==> Node name", web3.utils.toAscii(nodeName));
+
+    tx = await sendTx(littlepoProductHistoryContract.methods.registerNode(nodeName, productPackerNodeContract.options.address));
+    console.log("==> register Packer node", tx.transactionHash);
+
+    nodeName = await littlepoNodeContract.methods.getNodeName().call();
+    console.log("==> Node name", web3.utils.toAscii(nodeName));
+
+    tx = await sendTx(littlepoProductHistoryContract.methods.registerNode(nodeName, littlepoNodeContract.options.address));
+    console.log("==> register Littpo Node", tx.transactionHash);
+
+    nodeName = await retailShopNodeContract.methods.getNodeName().call();
+    console.log("==> Node name", web3.utils.toAscii(nodeName));
+
+    tx = await sendTx(littlepoProductHistoryContract.methods.registerNode(nodeName, retailShopNodeContract.options.address));
+    console.log("==> register Littpo Node", tx.transactionHash);
+    
+    //node
+    //setProductStorage
+    tx = await sendTx(productHarvesterNodeContract.methods.setProductStorage(littlepoProductHistoryContract.options.address));
+    console.log("setProductStorage", tx.transactionHash);
+
+    tx = await sendTx(productPackerNodeContract.methods.setProductStorage(littlepoProductHistoryContract.options.address));
+    console.log("setProductStorage", tx.transactionHash);
+
+    tx = await sendTx(littlepoNodeContract.methods.setProductStorage(littlepoProductHistoryContract.options.address));
+    console.log("setProductStorage", tx.transactionHash);
+
+    tx = await sendTx(retailShopNodeContract.methods.setProductStorage(littlepoProductHistoryContract.options.address));
+    console.log("setProductStorage", tx.transactionHash);
 
     console.log("Finished deployment")
 }

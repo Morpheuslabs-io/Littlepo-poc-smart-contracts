@@ -1,51 +1,39 @@
 pragma solidity ^0.4.24;
 
-import "./UserRole.sol";
-import "./BaseProduct.sol";
+// import "./UserRole.sol";
 import "./BaseNode.sol";
-import "./ProductHarvester.sol";
+import "./HarvesterBatch.sol";
 import "./LegalEntity.sol";
+import "./LittlepoProductHistory.sol";
 
-contract ProductHarvesterNode is BaseNode, UserRole {
-    LegalEntity public le;
-    uint public legalEntityId;
-    string public nodeKey;
+contract ProductHarvesterNode is BaseNode {
+    bytes32 constant NODE_NAME = "ProductHarvester";
 
-    mapping(uint => ProductHarvester) internal productBatches;
-    uint[] public listProductBatches;
+    // Input format
+    // bytes32 _productBatchId,
+    // bytes32 _bBatchNo,
+    // bytes32 _productName,
+    // bytes32 _location,
 
-    constructor() public {
-        nodeKey = "ProductHarvestNode";
-    }
+    // ==> args 2
+    // uint _productId,
+    // uint _producerId,
+    // uint _containerId,
+    // uint _containerType,
+    // uint _legalEntity
+    function createProductBatch(bytes32[] bArgs, uint[] uArgs) external onlyOperator returns (bool){
+        require(littlepoProductHistory != address(0), "Storage is not config yet");
+        // require(productBatches[_productBatchNo] == address(0), "Product batch is added already");
+        
+        // NODE_NAME
+        HarvesterBatch ph = new HarvesterBatch (NODE_NAME, bArgs, uArgs);
 
-    function createProductBatch(
-        uint _productId,
-        string _productName,
-        uint _batchNo,
-        uint _legalEntity,
-        string _location,
-        uint _containerId,
-        uint _containerType
-    ) external onlyOperator returns (bool){
-        require(productBatches[_batchNo] != address(0), "Product Batch is added already");
+        productBatches[ph.productBatchId()] = ph;
+        productLinks[ph.bBatchNo()] = ph.productBatchId();
+        // add litlePohistory as operator
+        ph.addOperator(littlepoProductHistory);
+        littlepoProductHistory.updateTrackingInfo(ph.bBatchNo(), ph);
 
-        ProductHarvester ph = new ProductHarvester (
-            _productId,
-            _productName,
-            _batchNo,
-            _legalEntity,
-            _location,
-            _containerId,
-            _containerType
-        );
-
-        productBatches[_batchNo] = ph;
-        listProductBatches.push(_batchNo);
         return true;
     }
-
-    function getProductBatchInfo(uint _productBatchNo) public view returns (BaseProduct) {
-        return productBatches[_productBatchNo];
-    }
-
 }
