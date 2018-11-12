@@ -7,13 +7,13 @@ contract BaseProduct {
     bytes32 public dBatchNo;
     bytes32 public productName;
     bytes32 public location;
+    bytes32 public productId;
+    bytes32 public producerId;
+    bytes32 public containerId;
+    bytes32 public containerType;
+    bytes32 public legalEntity;
 
-    uint public productId;
-    uint public producerId;
     uint public createdTime;
     uint public dateTimeIn;
     uint public dateTimeOut;
-    uint public containerId;
-    uint public containerType;
-    uint public legalEntity;
 }

@@ -5,9 +5,9 @@ import "./ProductBatch.sol";
 contract RetailShopBatch is ProductBatch {
     // uint public version = 1;
     bytes32 public dxQRCodeId;
-    uint public quantity;
-    uint public price;
-    uint public waterTemperature;
+    bytes32 public quantity;
+    bytes32 public price;
+    bytes32 public waterTemperature;
 
     // args1
     // bytes32 _nodeId,
@@ -15,20 +15,18 @@ contract RetailShopBatch is ProductBatch {
     // bytes32 _dxQRCodeId,
     // bytes32 _dBatchNo,
     // bytes32 _bBatchNo,
-    // string _productName,
-    // string _location,
+    // bytes32 _productName,
+    // bytes32 _location,
+    // bytes32 _productId,
+    // bytes32 _containerId,
+    // bytes32 _containerType,
+    // bytes32 _legalEntity,
+    // bytes32 _producerId,
+    // bytes32 _quantity,
+    // bytes32 _price,
+    // bytes32 _waterTemperature
 
-    // args2
-    // uint _productId,
-    // uint _containerId,
-    // uint _containerType,
-    // uint _legalEntity,
-    // uint _producerId,
-    // uint _quantity,
-    // uint _price,
-    // uint _waterTemperature
-
-    constructor(bytes32 _nodeId, bytes32[] bArgs, uint[] uArgs) public {
+    constructor(bytes32 _nodeId, bytes32[] bArgs) public {
         nodeId = _nodeId;
 
         productBatchId = bArgs[0];
@@ -38,14 +36,14 @@ contract RetailShopBatch is ProductBatch {
         productName = bArgs[4];
         location = bArgs[5];
 
-        productId = uArgs[0];
-        containerId = uArgs[1];
-        containerType = uArgs[2];
-        legalEntity = uArgs[3];
-        producerId = uArgs[4];
-        quantity = uArgs[5];
-        price = uArgs[6];
-        waterTemperature = uArgs[7];
+        productId = bArgs[6];
+        containerId = bArgs[7];
+        containerType = bArgs[8];
+        legalEntity = bArgs[9];
+        producerId = bArgs[10];
+        quantity = bArgs[11];
+        price = bArgs[12];
+        waterTemperature = bArgs[13];
 
         createdTime = now;
         dateTimeIn = now;

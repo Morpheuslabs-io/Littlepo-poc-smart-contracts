@@ -4,7 +4,8 @@ import "./ProductBatch.sol";
 
 contract HarvesterBatch is ProductBatch {
     // ==> args 1
-    // bytes32 _nodeId,
+    // bytes32 _nodeId, --> auto set
+
     // bytes32 _productBatchId,
     // bytes32 _bBatchNo,
     // bytes32 _productName,
@@ -16,20 +17,20 @@ contract HarvesterBatch is ProductBatch {
     // uint _containerId,
     // uint _containerType,
     // uint _legalEntity
-    constructor(bytes32 _nodeId, bytes32[] bArgs, uint[] uArgs) public {
+    constructor(bytes32 _nodeId, bytes32[] bArgs) public {
         //args1
         nodeId = _nodeId;
         productBatchId = bArgs[0];
         bBatchNo = bArgs[1];
         productName = bArgs[2];
         location = bArgs[3];
-        //args2
-        productId = uArgs[0];
-        producerId = uArgs[1];
-        containerId = uArgs[2];
-        containerType = uArgs[3];
-        legalEntity = uArgs[4];
+        productId = bArgs[4];
+        producerId = bArgs[5];
+        containerId = bArgs[6];
+        containerType = bArgs[7];
+        legalEntity = bArgs[8];
 
+        //args2
         createdTime = now;
         dateTimeIn = now;
     }

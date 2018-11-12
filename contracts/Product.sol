@@ -5,11 +5,11 @@ import "./ProductBatch.sol";
 contract Product is ProductBatch {
     
     constructor(
-        uint _productId,
+        bytes32 _productId,
         bytes32 _productName,
         bytes32 _location,
-        uint _containerId,
-        uint _containerType
+        bytes32 _containerId,
+        bytes32 _containerType
     ) public {
         productId = _productId;
         productName = _productName;

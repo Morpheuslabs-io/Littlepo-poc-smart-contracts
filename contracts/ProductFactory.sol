@@ -7,15 +7,15 @@ import "./Product.sol";
  * Base product, all product will inheritance from this product
  */
 contract ProductFactory is UserRole {
-    mapping(uint => Product) internal products;
-    uint[] internal listProducts;
+    mapping(bytes32 => Product) internal products;
+    bytes32[] internal listProducts;
 
     function createProduct(
-        uint _productId,
+        bytes32 _productId,
         bytes32 _productName,
         bytes32 _location,
-        uint _containerId,
-        uint _containerType
+        bytes32 _containerId,
+        bytes32 _containerType
     ) public onlyAdmin returns (bool) {
         require(products[_productId] == address(0), "Product is address already");
 
@@ -32,7 +32,7 @@ contract ProductFactory is UserRole {
         return true;
     }
 
-    function removeProduct (uint _productId) public onlyOwner {
+    function removeProduct (bytes32 _productId) public onlyOwner {
         require(products[_productId] != address(0), "Invalid product id");
 
         for (uint i = 0; i < listProducts.length; ++i) {
@@ -45,9 +45,9 @@ contract ProductFactory is UserRole {
         }
     }
 
-    function getProductInfo(uint productId) public view returns(Product) {
+    function getProductInfo(bytes32 productId) public view returns(Product) {
         return products[productId];
     }
 
-    event ProductAdded(uint productId, bool isAdd);
+    event ProductAdded(bytes32 productId, bool isAdd);
 }

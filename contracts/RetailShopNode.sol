@@ -6,11 +6,11 @@ import "./BaseNode.sol";
 contract RetailShopNode is BaseNode {
     bytes32 constant NODE_NAME = "RetailShop";
 
-    function createProductBatch(bytes32[] bArgs, uint[] uArgs) external onlyOperator returns (bool){
+    function createProductBatch(bytes32[] bArgs) external onlyOperator returns (bool){
         require(littlepoProductHistory != address(0), "Storage is not config yet");
 
-        RetailShopBatch ph = new RetailShopBatch (NODE_NAME, bArgs, uArgs);
 
+        RetailShopBatch ph = new RetailShopBatch (NODE_NAME, bArgs);
         // add litlePohistory as operator
         ph.addOperator(littlepoProductHistory);
 

@@ -3,8 +3,7 @@ pragma solidity ^0.4.24;
 import "./ProductBatch.sol";
 
 contract LittlepoBatch is ProductBatch {
-
-    uint public weight;
+    bytes32 public weight;
 
     // bytes32 _nodeId,
     // bytes32 _productBatchId,
@@ -12,15 +11,14 @@ contract LittlepoBatch is ProductBatch {
     // bytes32 _bBatchNo,
     // bytes32 _productName,
     // bytes32 _location,
+    // bytes32 _productId,
+    // bytes32 _containerId,
+    // bytes32 _containerType,
+    // bytes32 _legalEntity,
+    // bytes32 _producerId,
+    // bytes32 _weight
 
-    // uint _productId,
-    // uint _containerId,
-    // uint _containerType,
-    // uint _legalEntity,
-    // uint _producerId,
-    // uint _weight
-
-    constructor(bytes32 _nodeId, bytes32[] bArgs, uint[] uArgs) public {
+    constructor(bytes32 _nodeId, bytes32[] bArgs) public {
         nodeId = _nodeId;
 
         productBatchId = bArgs[0];
@@ -29,12 +27,12 @@ contract LittlepoBatch is ProductBatch {
         productName = bArgs[3];
         location = bArgs[4];
 
-        productId = uArgs[0];
-        containerId = uArgs[1];
-        containerType = uArgs[2];
-        legalEntity = uArgs[3];
-        producerId = uArgs[4];
-        weight = uArgs[5];
+        productId = bArgs[5];
+        containerId = bArgs[6];
+        containerType = bArgs[7];
+        legalEntity = bArgs[8];
+        producerId = bArgs[9];
+        weight = bArgs[10];
 
         createdTime = now;
         dateTimeIn = now;

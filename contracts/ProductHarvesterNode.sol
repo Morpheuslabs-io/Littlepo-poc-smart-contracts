@@ -14,19 +14,17 @@ contract ProductHarvesterNode is BaseNode {
     // bytes32 _bBatchNo,
     // bytes32 _productName,
     // bytes32 _location,
-
-    // ==> args 2
-    // uint _productId,
-    // uint _producerId,
-    // uint _containerId,
-    // uint _containerType,
-    // uint _legalEntity
-    function createProductBatch(bytes32[] bArgs, uint[] uArgs) external onlyOperator returns (bool){
+    // bytes32 _productId,
+    // bytes32 _producerId,
+    // bytes32 _containerId,
+    // bytes32 _containerType,
+    // bytes32 _legalEntity
+    function createProductBatch(bytes32[] bArgs) external onlyOperator returns (bool){
         require(littlepoProductHistory != address(0), "Storage is not config yet");
         // require(productBatches[_productBatchNo] == address(0), "Product batch is added already");
         
         // NODE_NAME
-        HarvesterBatch ph = new HarvesterBatch (NODE_NAME, bArgs, uArgs);
+        HarvesterBatch ph = new HarvesterBatch (NODE_NAME, bArgs);
 
         productBatches[ph.productBatchId()] = ph;
         productLinks[ph.bBatchNo()] = ph.productBatchId();
