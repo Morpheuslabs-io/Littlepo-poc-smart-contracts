@@ -8,6 +8,7 @@ contract LittlepoNode is BaseNode {
 
     function createProductBatch(bytes32[] bArgs) external onlyOperator returns (bool){
         require(littlepoProductHistory != address(0), "Storage is not config yet");
+        require(bArgs.length == 11, "Incorrect parameter length, need to be 9");
 
         LittlepoBatch ph = new LittlepoBatch (NODE_NAME,bArgs);
 

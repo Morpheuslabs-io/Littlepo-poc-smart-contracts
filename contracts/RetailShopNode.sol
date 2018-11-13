@@ -8,7 +8,7 @@ contract RetailShopNode is BaseNode {
 
     function createProductBatch(bytes32[] bArgs) external onlyOperator returns (bool){
         require(littlepoProductHistory != address(0), "Storage is not config yet");
-
+        require(bArgs.length == 14, "Incorrect parameter length, need to be 14");
 
         RetailShopBatch ph = new RetailShopBatch (NODE_NAME, bArgs);
         // add litlePohistory as operator

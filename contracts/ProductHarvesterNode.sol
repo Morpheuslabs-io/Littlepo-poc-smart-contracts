@@ -21,7 +21,7 @@ contract ProductHarvesterNode is BaseNode {
     // bytes32 _legalEntity
     function createProductBatch(bytes32[] bArgs) external onlyOperator returns (bool){
         require(littlepoProductHistory != address(0), "Storage is not config yet");
-        // require(productBatches[_productBatchNo] == address(0), "Product batch is added already");
+        require(bArgs.length == 9, "Incorrect parameter length, need to be 9");
         
         // NODE_NAME
         HarvesterBatch ph = new HarvesterBatch (NODE_NAME, bArgs);

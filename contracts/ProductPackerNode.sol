@@ -21,7 +21,7 @@ contract ProductPackerNode is BaseNode {
 
     function createProductBatch(bytes32[] bArgs) external onlyOperator returns (bool){
         require(littlepoProductHistory != address(0), "Storage is not config yet");
-        // require(bArgs.length == 5, "bArgs need to be 5");
+        require(bArgs.length == 11, "Incorrect parameter length, need to be 11");
         // require(uArgs.length == 6, "bArgs need to be 6");
 
         PackerBatch ph = new PackerBatch (NODE_NAME, bArgs);
