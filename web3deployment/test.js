@@ -75,15 +75,15 @@ Util.toHexString = function(byteArray) {
 };
 
 async function main() {
-    console.log("Start deployment use address", sender);
+    console.log("Start transaction sender address", sender);
     nonce = await web3.eth.getTransactionCount(sender);
     console.log("Current nonce",nonce);
 
     chainId = chainId || await web3.eth.net.getId()
     console.log('chainId', chainId);
 
-    const productHarvestNodeAddr = "0xCeaEaB6DCa8B6dBD3D0b96C88656eA4b99d850A7";
-    const productHarvestNodeABI = [{"constant":false,"inputs":[{"name":"admin","type":"address"}],"name":"removeAdmin","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x1785f53c"},{"constant":true,"inputs":[],"name":"getOperators","outputs":[{"name":"","type":"address[]"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x27a099d8"},{"constant":true,"inputs":[],"name":"getAdmins","outputs":[{"name":"","type":"address[]"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x31ae450b"},{"constant":true,"inputs":[{"name":"_productBatchId","type":"bytes32"}],"name":"getProductBatchInfo","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x5445647d"},{"constant":true,"inputs":[],"name":"littlepoProductHistory","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x5599e55b"},{"constant":false,"inputs":[{"name":"newAdmin","type":"address"}],"name":"addAdmin","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x70480275"},{"constant":false,"inputs":[{"name":"_littlepoProductHistory","type":"address"}],"name":"setProductStorage","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x7a12b9c5"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x8da5cb5b"},{"constant":false,"inputs":[{"name":"newOperator","type":"address"}],"name":"addOperator","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x9870d7fe"},{"constant":false,"inputs":[{"name":"operator","type":"address"}],"name":"removeOperator","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0xac8a584a"},{"constant":false,"inputs":[{"name":"_productBatchId","type":"bytes32"},{"name":"_childId","type":"bytes32"},{"name":"_childName","type":"bytes32"},{"name":"_childAddress","type":"address"}],"name":"addChild","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0xc611a4d7"},{"constant":true,"inputs":[{"name":"_bBatchNo","type":"bytes32"}],"name":"getProductBatchByBatchNo","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0xd977e6be"},{"constant":false,"inputs":[{"name":"_newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0xf2fde38b"},{"constant":true,"inputs":[],"name":"getNodeName","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"pure","type":"function","signature":"0xf7aca2cb"},{"anonymous":false,"inputs":[{"indexed":false,"name":"newOperator","type":"address"},{"indexed":false,"name":"isAdd","type":"bool"}],"name":"OperatorAdded","type":"event","signature":"0x091a7a4b85135fdd7e8dbc18b12fabe5cc191ea867aa3c2e1a24a102af61d58b"},{"anonymous":false,"inputs":[{"indexed":false,"name":"newAdmin","type":"address"},{"indexed":false,"name":"isAdd","type":"bool"}],"name":"AdminAdded","type":"event","signature":"0x8a7039f4ea6f86a6a98d9c1efb0ea9d190f6b3fa37c32627cf48f767f51e36d5"},{"anonymous":false,"inputs":[{"indexed":true,"name":"previousOwner","type":"address"}],"name":"OwnershipRenounced","type":"event","signature":"0xf8df31144d9c2f0f6b59d69b8b98abd5459d07f2742c4df920b25aae33c64820"},{"anonymous":false,"inputs":[{"indexed":true,"name":"previousOwner","type":"address"},{"indexed":true,"name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event","signature":"0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0"},{"constant":false,"inputs":[{"name":"bArgs","type":"bytes32[]"},{"name":"uArgs","type":"uint256[]"}],"name":"createProductBatch","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0xc4b370b7"}];
+    const productHarvestNodeAddr = "0xB9e28c5734eA7918c478E589296bC12a2a0c1004";
+    const productHarvestNodeABI = [{"constant":false,"inputs":[{"name":"admin","type":"address"}],"name":"removeAdmin","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x1785f53c"},{"constant":true,"inputs":[],"name":"getOperators","outputs":[{"name":"","type":"address[]"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x27a099d8"},{"constant":true,"inputs":[],"name":"getAdmins","outputs":[{"name":"","type":"address[]"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x31ae450b"},{"constant":true,"inputs":[{"name":"_productBatchId","type":"bytes32"}],"name":"getProductBatchInfo","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x5445647d"},{"constant":true,"inputs":[],"name":"littlepoProductHistory","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x5599e55b"},{"constant":false,"inputs":[{"name":"newAdmin","type":"address"}],"name":"addAdmin","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x70480275"},{"constant":false,"inputs":[{"name":"_littlepoProductHistory","type":"address"}],"name":"setProductStorage","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x7a12b9c5"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0x8da5cb5b"},{"constant":false,"inputs":[{"name":"newOperator","type":"address"}],"name":"addOperator","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x9870d7fe"},{"constant":false,"inputs":[{"name":"operator","type":"address"}],"name":"removeOperator","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0xac8a584a"},{"constant":false,"inputs":[{"name":"_productBatchId","type":"bytes32"},{"name":"_childId","type":"bytes32"},{"name":"_childName","type":"bytes32"},{"name":"_childAddress","type":"address"}],"name":"addChild","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0xc611a4d7"},{"constant":true,"inputs":[{"name":"_bBatchNo","type":"bytes32"}],"name":"getProductBatchByBatchNo","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function","signature":"0xd977e6be"},{"constant":false,"inputs":[{"name":"_newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0xf2fde38b"},{"constant":true,"inputs":[],"name":"getNodeName","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"pure","type":"function","signature":"0xf7aca2cb"},{"anonymous":false,"inputs":[{"indexed":false,"name":"newOperator","type":"address"},{"indexed":false,"name":"isAdd","type":"bool"}],"name":"OperatorAdded","type":"event","signature":"0x091a7a4b85135fdd7e8dbc18b12fabe5cc191ea867aa3c2e1a24a102af61d58b"},{"anonymous":false,"inputs":[{"indexed":false,"name":"newAdmin","type":"address"},{"indexed":false,"name":"isAdd","type":"bool"}],"name":"AdminAdded","type":"event","signature":"0x8a7039f4ea6f86a6a98d9c1efb0ea9d190f6b3fa37c32627cf48f767f51e36d5"},{"anonymous":false,"inputs":[{"indexed":true,"name":"previousOwner","type":"address"}],"name":"OwnershipRenounced","type":"event","signature":"0xf8df31144d9c2f0f6b59d69b8b98abd5459d07f2742c4df920b25aae33c64820"},{"anonymous":false,"inputs":[{"indexed":true,"name":"previousOwner","type":"address"},{"indexed":true,"name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event","signature":"0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0"},{"constant":false,"inputs":[{"name":"bArgs","type":"bytes32[]"}],"name":"createProductBatch","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function","signature":"0x49334ee5"}];
 
     const contract = new web3.eth.Contract(productHarvestNodeABI, productHarvestNodeAddr);
 
@@ -99,26 +99,32 @@ async function main() {
     // uint _containerType,
     // uint _legalEntity
     let bInputs = [];
-    let uInputs = [];
+    // let uInputs = [];
 
     bInputs.push(web3.utils.fromAscii("productBatch01"));
     bInputs.push(web3.utils.fromAscii("bBatch01"));
     bInputs.push(web3.utils.fromAscii("Tea leaf"));
     bInputs.push(web3.utils.fromAscii("Hanoi"));
+    bInputs.push(web3.utils.fromAscii("Hanoi"));
+    bInputs.push(web3.utils.fromAscii("Hanoi"));
+    bInputs.push(web3.utils.fromAscii("Hanoi"));
+    bInputs.push(web3.utils.fromAscii("Hanoi"));
+    bInputs.push(web3.utils.fromAscii("Hanoi"));
+    // bInputs.push(web3.utils.fromAscii("Hanoi"));
+    // bInputs.push(web3.utils.fromAscii("Hanoi"));
 
-    uInputs.push(new BigNumber(1001).toFixed());
-    uInputs.push(new BigNumber(1002).toFixed());
-    uInputs.push(new BigNumber(1003).toFixed());
-    uInputs.push(new BigNumber(1004).toFixed());
-    uInputs.push(new BigNumber(1005).toFixed());
+    // uInputs.push(new BigNumber(1001).toFixed());
+    // uInputs.push(new BigNumber(1002).toFixed());
+    // uInputs.push(new BigNumber(1003).toFixed());
+    // uInputs.push(new BigNumber(1004).toFixed());
+    // uInputs.push(new BigNumber(1005).toFixed());
     
     // const bArgs = []
     // bArgs.push(Util.bytesToHex(bInputs));
 
     let tx = await sendTx(
         contract.methods.createProductBatch(
-            bInputs, 
-            uInputs
+            bInputs
         )
     );
     console.log(tx);
