@@ -1,8 +1,8 @@
 pragma solidity ^0.4.24;
 
-import "./ProductBatch.sol";
+import "./BaseProduct.sol";
 
-contract Product is ProductBatch {
+contract Product is BaseProduct {
     
     constructor(
         bytes32 _productId,

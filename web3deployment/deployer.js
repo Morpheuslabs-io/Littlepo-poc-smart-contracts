@@ -171,6 +171,10 @@ async function main() {
     tx = await sendTx(retailShopNodeContract.methods.setProductStorage(littlepoProductHistoryContract.options.address));
     console.log("setProductStorage", tx.transactionHash);
 
+    // set previous node
+    tx = await sendTx(productPackerNodeContract.methods.setPreviousNode(productHarvesterNodeContract.options.address));
+    console.log("==> set Previous for Packer node", tx.transactionHash);
+
     console.log("Finished deployment")
 }
 

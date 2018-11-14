@@ -1,26 +1,28 @@
 pragma solidity ^0.4.24;
 
-import "./UserRole.sol";
 import "./BaseProduct.sol";
 
-contract ProductBatch is UserRole, BaseProduct {
+contract ProductBatch is BaseProduct {
+    bytes32 public bBatchNo;
+    
     uint private MAX_PRODUCT_CHILD = 100;
     uint public version = 1;
 
     // child productBatchNo
-    bytes32[100] public childIds;
+    bytes32[] public childIds;
     // child productBatchName
-    bytes32[100] public childNames;
+    bytes32[] public childNames;
     // child productBatch address
     address[] public childAddress;
+
     uint public childCounter = 1;
     
-    function addChild(bytes32 _childId, bytes32 _childName, address _childAddress) public onlyOperator returns(bool){
+    function addChild(BaseProduct _child) public onlyOperator returns(bool){
         require(childCounter < MAX_PRODUCT_CHILD, "Cannot add more child");
 
-        childIds[childCounter - 1] = _childId;
-        childNames[childCounter - 1] = _childName;
-        childAddress.push(_childAddress);
+        childIds[childCounter - 1] = _child.qrCodeId();
+        childNames[childCounter - 1] = _child.productName();
+        childAddress.push(address(_child));
 
         childCounter++;
 
@@ -36,11 +38,7 @@ contract ProductBatch is UserRole, BaseProduct {
         }
     }
 
-    function setDateTimeOut(uint _timeOut) public onlyOperator returns(bool){
-        dateTimeOut = _timeOut;
-    }
-
-    function getListChilds() public view returns(bytes32[100], address[]) {
-        return (childNames, childAddress);
+    function getListChilds() public view returns(bytes32[],bytes32[], address[]) {
+        return (childIds, childNames, childAddress);
     }
 }

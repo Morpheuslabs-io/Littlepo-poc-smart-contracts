@@ -5,13 +5,14 @@ import "./ProductBatch.sol";
 contract RetailShopBatch is ProductBatch {
     // uint public version = 1;
     bytes32 public dxQRCodeId;
+    bytes32 public dBatchNo;
     bytes32 public quantity;
     bytes32 public price;
     bytes32 public waterTemperature;
 
     // args1
     // bytes32 _nodeId,
-    // bytes32 _productBatchId,
+    // bytes32 _qrCodeId,
     // bytes32 _dxQRCodeId,
     // bytes32 _dBatchNo,
     // bytes32 _bBatchNo,
@@ -29,7 +30,7 @@ contract RetailShopBatch is ProductBatch {
     constructor(bytes32 _nodeId, bytes32[] bArgs) public {
         nodeId = _nodeId;
 
-        productBatchId = bArgs[0];
+        qrCodeId = bArgs[0];
         dxQRCodeId = bArgs[1];
         dBatchNo = bArgs[2];
         bBatchNo = bArgs[3];

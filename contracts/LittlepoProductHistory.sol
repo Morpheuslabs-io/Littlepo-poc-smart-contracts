@@ -1,14 +1,18 @@
 pragma solidity ^0.4.24;
 
 import "./UserRole.sol";
+import "./BaseProduct.sol";
 import "./ProductBatch.sol";
+import "./BaseNode.sol";
 
 contract LittlepoProductHistory is UserRole {
-    mapping(bytes32 => address[]) internal productBatches;
-    mapping(bytes32 => bytes32) internal productLinks;
+    mapping(bytes32 => BaseProduct) internal products;
+    mapping(bytes32 => BaseProduct[]) internal productLinks;
 
     mapping(address => bytes32) internal nodes;
     mapping(address => bool) internal nodeNames;
+    mapping(bytes32 => BaseNode) internal baseNodes;
+
     bytes32[20] internal nodeList;
 
     uint internal counter = 1;
@@ -20,6 +24,7 @@ contract LittlepoProductHistory is UserRole {
         nodes[_baseNodeAddress] = _nodeName;
         nodeList[counter - 1] = _nodeName;
         nodeNames[_baseNodeAddress] = true;
+        baseNodes[_nodeName] = BaseNode(_baseNodeAddress);
         counter++;
 
         // add to list operator to able to save histories;
@@ -27,45 +32,31 @@ contract LittlepoProductHistory is UserRole {
         return true;
     }
 
-    // function setQueryNode(CustomerNode _node) public onlyAdmin returns(bool) {
-    //     require(_node != address(0), "Customer node is invalid");
-    //     customerNode = _node;
-
-    //     return true;
-    // }
-
-    // function queryProductByQRCode(bytes32 _dxQRCodeId) public view returns(ProductBatch){
-    //     return customerNode.queryProductInfo(_dxQRCodeId);
-    // }
-
     function getNodes() external view returns (bytes32[20]) {
         return nodeList;
     }
 
-    function getProductBatchByBN(bytes32 _dBatchNo) public view returns (address[]) {
-        return productBatches[_dBatchNo];
+    function getProductBatchByBN(bytes32 _batchNo, bytes32 _nodeId) public view returns (ProductBatch[]) {
+        BaseNode node = baseNodes[_nodeId];
+        return node.getProductBatchByBatchNo(_batchNo);
     }
 
-    function getProductBatchByQR(bytes32 _qrCodeId) public view returns (address[]) {
-        return productBatches[productLinks[_qrCodeId]];
+    function getProductBatchByQR(bytes32 _qrCodeId) public view returns (BaseProduct) {
+        return products[_qrCodeId];
     }
 
-    function updateTrackingInfo(bytes32 _batchNo, ProductBatch _productBatch) public onlyOperator returns (bool){
-        require(_productBatch != address(0), "Invalid history time");
-        require(nodeNames[msg.sender], "Your node is not regiter yet");
+    function updateTrackingInfo(BaseProduct _baseProduct) public onlyOperator returns (bool){
+        require(_baseProduct != address(0), "Invalid history time");
+        // require(productBatches[_qrCodeId] != address(0), "Product is added to history already");
+        require(nodeNames[msg.sender], "Your node is not register yet");
 
-        productBatches[_batchNo].push(_productBatch);
-        return true;
-    }
+        BaseProduct product = products[_baseProduct.qrCodeId()];
+        if(product == address(0)) {
+            products[_baseProduct.qrCodeId()] = _baseProduct;
+            product = _baseProduct;
+        }
 
-    function setAlias(bytes32 _dBatchNo, bytes32 _qrCodeId) public onlyOperator returns (bool){
-        productLinks[_dBatchNo] = _qrCodeId;
-    }
-    
-
-    function removeTrackingInfo(bytes32 _batchNo) public onlyOperator returns (bool) {
-        delete productBatches[_batchNo];
-        delete productLinks[_batchNo];
+        product.addHistory(nodes[msg.sender], now);
 
         return true;
     }

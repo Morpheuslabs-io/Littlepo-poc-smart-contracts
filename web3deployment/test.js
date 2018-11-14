@@ -107,7 +107,7 @@ async function testHarvestNode() {
     bInputs.push(web3.utils.fromAscii("HarvestPDB01"));
     bInputs.push(web3.utils.fromAscii("HarvestPDB01"));
     bInputs.push(web3.utils.fromAscii("HarvestPDB01"));
-    bInputs.push(web3.utils.fromAscii("HarvestPDB01"));
+    // bInputs.push(web3.utils.fromAscii("HarvestPDB01"));
 
     let tx = await sendTx(
         contract.methods.createProductBatch(

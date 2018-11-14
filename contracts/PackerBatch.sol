@@ -22,12 +22,11 @@ contract PackerBatch is ProductBatch {
     constructor(bytes32 _nodeId, bytes32[] bArgs) public {
         nodeId = _nodeId;
         
-        productBatchId = bArgs[0];
+        qrCodeId = bArgs[0];
         dBatchNo = bArgs[1];
         bBatchNo = bArgs[2];
         productName = bArgs[3];
         location = bArgs[4];
-
         productId = bArgs[5];
         containerId = bArgs[6];
         containerType = bArgs[7];

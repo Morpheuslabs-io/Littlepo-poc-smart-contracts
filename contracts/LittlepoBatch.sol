@@ -4,6 +4,7 @@ import "./ProductBatch.sol";
 
 contract LittlepoBatch is ProductBatch {
     bytes32 public weight;
+    bytes32 public dBatchNo;
 
     // bytes32 _nodeId,
     // bytes32 _productBatchId,
@@ -21,7 +22,7 @@ contract LittlepoBatch is ProductBatch {
     constructor(bytes32 _nodeId, bytes32[] bArgs) public {
         nodeId = _nodeId;
 
-        productBatchId = bArgs[0];
+        qrCodeId = bArgs[0];
         dBatchNo = bArgs[1];
         bBatchNo = bArgs[2];
         productName = bArgs[3];

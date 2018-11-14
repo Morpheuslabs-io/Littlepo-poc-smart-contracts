@@ -27,13 +27,15 @@ contract LittlepoProductTracking is UserRole {
         return true;
     }
 
-    function getProductBatchByBN(bytes32 _dBatchNo) public view returns (address[]) {
-        return littlepoHistory.getProductBatchByBN(_dBatchNo);
+    function getProductBatchByBN(bytes32 _batchNo, bytes32 _nodeId) public view returns (ProductBatch[]) {
+        return littlepoHistory.getProductBatchByBN(_batchNo, _nodeId);
     }
 
-    function getProductBatchByQR(bytes32 _qrcodeId) public view returns (address[]) {
+    function getProductBatchByQR(bytes32 _qrcodeId) public view returns (BaseProduct) {
         return littlepoHistory.getProductBatchByQR(_qrcodeId);
     }
-    
-    
+
+    // function getProductBatch(bytes32 _qrcodeId) public view returns (ProductBatch) {
+    //     return littlepoHistory.getProductBatchByQR(_qrcodeId);
+    // }
 }
