@@ -41,7 +41,21 @@ contract LittlepoProductHistory is UserRole {
         return node.getProductBatchByBatchNo(_batchNo);
     }
 
-    function getProductBatchByQR(bytes32 _qrCodeId) public view returns (BaseProduct) {
+    function getProductBatchByQR(bytes32 _qrCodeId) public view returns (bytes32[]) {
+        BaseProduct ph = products[_qrCodeId];
+        bytes32[] memory ret = new bytes32[](8);
+        ret[0] = ph.bBatchNo();
+        ret[1] = ph.productName();
+        ret[2] = ph.location();
+        ret[3] = ph.productId();
+        ret[4] = ph.producerId();
+        ret[5] = ph.containerId();
+        ret[6] = ph.containerType();
+        ret[7] = ph.legalEntity();
+
+        return ret;
+    }
+    function getBaseProducByQR(bytes32 _qrCodeId) public view returns (BaseProduct) {
         return products[_qrCodeId];
     }
 

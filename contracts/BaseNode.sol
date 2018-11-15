@@ -24,9 +24,9 @@ contract BaseNode is UserRole {
         littlepoProductHistory = _littlepoProductHistory;
     }
 
-    function getProductBatchInfo(bytes32 _qrCodeId) public view returns(ProductBatch){
-        return productBatches[_qrCodeId];
-    }
+    // function getProductBatchInfo(bytes32 _qrCodeId) public view returns(ProductBatch){
+    //     return productBatches[_qrCodeId];
+    // }
 
     function getProductBatchByBatchNo(bytes32 _bBatchNo) public view returns(ProductBatch[]){
         return productLinks[_bBatchNo];

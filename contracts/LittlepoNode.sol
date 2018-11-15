@@ -29,15 +29,49 @@ contract LittlepoNode is BaseNode {
     // _qrCodeId: qrCodeId of Packer package
     function receiveProductBatch(bytes32 _qrCodeId) public onlyOperator returns (bool) {
         
-        ProductBatch pb = ProductBatch(littlepoProductHistory.getProductBatchByQR(_qrCodeId));
+        ProductBatch pb = ProductBatch(littlepoProductHistory.getBaseProducByQR(_qrCodeId));
         require(pb != address(0), "Invalid qr code");
 
         for(uint i = 0; i < pb.childCounter() - 1; i++) {
-            ProductBatch child = ProductBatch(littlepoProductHistory.getProductBatchByQR(pb.childIds(i)));
+            ProductBatch child = ProductBatch(littlepoProductHistory.getBaseProducByQR(pb.childIds(i)));
 
             child.addHistory(NODE_NAME, now);
         }
         
         return true;
+    }
+
+
+    function getProductBatchInfo(bytes32 _qrCodeId) 
+        public view returns(bytes32[]){
+
+        LittlepoBatch ph = LittlepoBatch(productBatches[_qrCodeId]);
+        bytes32[] memory ret = new bytes32[](11);
+    // bytes32 _nodeId,
+    // bytes32 _productBatchId,
+    // bytes32 _dBatchNo,
+    // bytes32 _bBatchNo,
+    // bytes32 _productName,
+    // bytes32 _location,
+    // bytes32 _productId,
+    // bytes32 _containerId,
+    // bytes32 _containerType,
+    // bytes32 _legalEntity,
+    // bytes32 _producerId,
+    // bytes32 _weight
+        ret[0] = ph.bBatchNo();
+        ret[1] = ph.productName();
+        ret[2] = ph.location();
+        ret[3] = ph.productId();
+        ret[4] = ph.producerId();
+        ret[5] = ph.containerId();
+        ret[6] = ph.containerType();
+        ret[7] = ph.legalEntity();
+
+        ret[8] = ph.dBatchNo();
+        ret[9] = ph.weight();
+        // ret[10] = ph.createdTime();
+
+        return ret;
     }
 }
