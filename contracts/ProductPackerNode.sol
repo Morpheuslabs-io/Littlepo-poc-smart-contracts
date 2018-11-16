@@ -35,7 +35,7 @@ contract ProductPackerNode is BaseNode {
 
         pb.addOperator(littlepoProductHistory);
         // littlepoProductHistory.updateTrackingInfo(pb.qrCodeId(), pb);
-        littlepoProductHistory.updateTrackingInfo(pb);
+        littlepoProductHistory.updateTrackingInfo(pb.qrCodeId(), pb);
 
         return true;
     }
@@ -62,9 +62,9 @@ contract ProductPackerNode is BaseNode {
         ProductBatch pb = previousNode.getProductBatchByBatchNo(tb.bBatchNo())[0];
 
         tb.addOperator(littlepoProductHistory);
-        tb.addHistory(pb.nodeId(), pb.createdTime());
+        tb.addHistory(pb.nodeId(), pb.qrCodeId(), pb.createdTime());
 
-        littlepoProductHistory.updateTrackingInfo(tb);
+        littlepoProductHistory.updateTrackingInfo(pb.qrCodeId(), tb);
         productBatches[_packerBatchQRId].addChild(tb);
 
         return true;

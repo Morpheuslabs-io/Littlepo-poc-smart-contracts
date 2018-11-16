@@ -21,7 +21,7 @@ contract LittlepoNode is BaseNode {
         productBatches[ph.qrCodeId()] = ph;
 
         ph.addOperator(littlepoProductHistory);
-        littlepoProductHistory.updateTrackingInfo(ph);
+        littlepoProductHistory.updateTrackingInfo(ph.qrCodeId(),ph);
 
         return true;
     }
@@ -35,7 +35,7 @@ contract LittlepoNode is BaseNode {
         for(uint i = 0; i < pb.childCounter() - 1; i++) {
             ProductBatch child = ProductBatch(littlepoProductHistory.getBaseProducByQR(pb.childIds(i)));
 
-            child.addHistory(NODE_NAME, now);
+            child.addHistory(NODE_NAME, pb.qrCodeId(), now);
         }
         
         return true;

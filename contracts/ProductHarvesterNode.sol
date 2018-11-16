@@ -34,7 +34,8 @@ contract ProductHarvesterNode is BaseNode {
 
         // add litlePohistory as operator
         ph.addOperator(littlepoProductHistory);
-        littlepoProductHistory.updateTrackingInfo(ph);
+        
+        littlepoProductHistory.updateTrackingInfo(ph.qrCodeId(), ph);
 
         return true;
     }

@@ -20,19 +20,21 @@ contract BaseProduct is UserRole{
 
     // history
     bytes32[] public actions;
+    bytes32[] public parentNodeIds;
     uint[] public times;
 
-    function addHistory(bytes32 _action, uint _time) public onlyOperator returns (bool) {
+    function addHistory(bytes32 _action, bytes32 parentQRCodeId, uint _time) public onlyOperator returns (bool) {
         require(_time > 0, "Invalid history time");
 
         actions.push(_action);
+        parentNodeIds.push(parentQRCodeId);
         times.push(_time);
 
         return true;
     }
 
-    function getHistory () public view returns (bytes32[],uint[]) {
-        return (actions, times);
+    function getHistory () public view returns (bytes32[],bytes32[], uint[]) {
+        return (actions, parentNodeIds, times);
     }
     
     function setDateTimeOut(uint _timeOut) public onlyOperator returns(bool){

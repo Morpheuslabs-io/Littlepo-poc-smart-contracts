@@ -21,8 +21,8 @@ contract RetailShopNode is BaseNode {
         // add to center storage
         BaseProduct bp = littlepoProductHistory.getBaseProducByQR(ph.dxQRCodeId());
 
-        littlepoProductHistory.updateTrackingInfo(ph);
-        littlepoProductHistory.updateTrackingInfo(bp);
+        littlepoProductHistory.updateTrackingInfo(ph.qrCodeId(), ph);
+        littlepoProductHistory.updateTrackingInfo(ph.qrCodeId(), bp);
 
         return true;
     }

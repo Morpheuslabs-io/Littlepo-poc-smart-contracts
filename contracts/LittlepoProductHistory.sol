@@ -60,7 +60,7 @@ contract LittlepoProductHistory is UserRole {
         return products[_qrCodeId];
     }
 
-    function updateTrackingInfo(BaseProduct _baseProduct) public onlyOperator returns (bool){
+    function updateTrackingInfo(bytes32 _parentQrCodeId, BaseProduct _baseProduct) public onlyOperator returns (bool){
         require(_baseProduct != address(0), "Invalid history time");
         // require(productBatches[_qrCodeId] != address(0), "Product is added to history already");
         require(nodeNames[msg.sender], "Your node is not register yet");
@@ -71,7 +71,7 @@ contract LittlepoProductHistory is UserRole {
             product = _baseProduct;
         }
 
-        product.addHistory(nodes[msg.sender], now);
+        product.addHistory(nodes[msg.sender], _parentQrCodeId, now);
 
         return true;
     }
