@@ -1,7 +1,7 @@
 pragma solidity ^0.4.24;
 
 import "./BaseNode.sol";
-import "./ProductBatch.sol";
+import "./BaseProduct.sol";
 import "./LittlepoBatch.sol";
 
 contract LittlepoNode is BaseNode {
@@ -28,19 +28,15 @@ contract LittlepoNode is BaseNode {
 
     // _qrCodeId: qrCodeId of Packer package
     function receiveProductBatch(bytes32 _qrCodeId) public onlyOperator returns (bool) {
-        
-        ProductBatch pb = ProductBatch(littlepoProductHistory.getBaseProducByQR(_qrCodeId));
-        require(pb != address(0), "Invalid qr code");
+        bytes32[] memory childIds = littlepoProductHistory.getChildsOfProductBatch(_qrCodeId);
 
-        for(uint i = 0; i < pb.childCounter() - 1; i++) {
-            ProductBatch child = ProductBatch(littlepoProductHistory.getBaseProducByQR(pb.childIds(i)));
-
-            child.addHistory(NODE_NAME, pb.qrCodeId(), now);
+        for(uint i = 0; i < childIds.length; i++) {
+            BaseProduct child = littlepoProductHistory.getBaseProducByQR(childIds[i]);
+            child.addHistory(NODE_NAME, _qrCodeId, now);
         }
         
         return true;
     }
-
 
     function getProductBatchInfo(bytes32 _qrCodeId) 
         public view returns(bytes32[]){

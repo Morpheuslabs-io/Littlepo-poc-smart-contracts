@@ -10,20 +10,48 @@ contract RetailShopNode is BaseNode {
         return NODE_NAME;
     }
 
+
+    // bytes32 _qrCodeId,
+    // bytes32 _dxQRCodeId,
+    // bytes32 _dBatchNo,
+    // bytes32 _bBatchNo,
+    // bytes32 _productName,
+    // bytes32 _location,
+    // bytes32 _productId,
+    // bytes32 _containerId,
+    // bytes32 _containerType,
+    // bytes32 _legalEntity,
+    // bytes32 _producerId,
+    // bytes32 _quantity,
+    // bytes32 _price,
+    // bytes32 _waterTemperature
+
     function createProductBatch(bytes32[] bArgs) external onlyOperator returns (bool){
         require(littlepoProductHistory != address(0), "Storage is not config yet");
         require(bArgs.length == 14, "Incorrect parameter length, need to be 14");
 
         RetailShopBatch ph = new RetailShopBatch (NODE_NAME, bArgs);
-        // add litlePohistory as operator
+        // add litlePohistory as erator
         ph.addOperator(littlepoProductHistory);
 
         // add to center storage
-        BaseProduct bp = littlepoProductHistory.getBaseProducByQR(ph.dxQRCodeId());
-
         littlepoProductHistory.updateTrackingInfo(ph.qrCodeId(), ph);
-        littlepoProductHistory.updateTrackingInfo(ph.qrCodeId(), bp);
+        // littlepoProductHistory.updateTrackingInfo(ph.qrCodeId(), bp);
+        BaseProduct child = littlepoProductHistory.getBaseProducByQR(bArgs[1]);
+        child.addHistory(NODE_NAME, bArgs[0], now);
 
+        return true;
+    }
+
+    // _qrCodeId: qrCodeId of Packer package
+    function receiveProductBatch(bytes32 _qrCodeId) public onlyOperator returns (bool) {
+        bytes32[] memory childIds = littlepoProductHistory.getChildsOfProductBatch(_qrCodeId);
+
+        for(uint i = 0; i < childIds.length; i++) {
+            BaseProduct child = littlepoProductHistory.getBaseProducByQR(childIds[i]);
+            child.addHistory(NODE_NAME, _qrCodeId, now);
+        }
+        
         return true;
     }
 

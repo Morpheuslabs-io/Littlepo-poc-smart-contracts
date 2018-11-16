@@ -9,11 +9,15 @@ contract LittlepoProductHistory is UserRole {
     mapping(bytes32 => BaseProduct) internal products;
     mapping(bytes32 => BaseProduct[]) internal productLinks;
 
+    mapping(bytes32 => bytes32[]) internal productChildIds;
+    mapping(bytes32 => address[]) internal productChildAddress;
+
     mapping(address => bytes32) internal nodes;
     mapping(address => bool) internal nodeNames;
     mapping(bytes32 => BaseNode) internal baseNodes;
 
     bytes32[] internal nodeList;
+    // address[] internal nodeAddress;
 
     uint internal counter = 1;
 
@@ -26,6 +30,7 @@ contract LittlepoProductHistory is UserRole {
         nodeList.push(_nodeName);
         nodeNames[_baseNodeAddress] = true;
         baseNodes[_nodeName] = BaseNode(_baseNodeAddress);
+        
         counter++;
 
         // add to list operator to able to save histories;
@@ -61,7 +66,7 @@ contract LittlepoProductHistory is UserRole {
     }
 
     function updateTrackingInfo(bytes32 _parentQrCodeId, BaseProduct _baseProduct) public onlyOperator returns (bool){
-        require(_baseProduct != address(0), "Invalid history time");
+        require(_baseProduct != address(0), "Invalid product time");
         // require(productBatches[_qrCodeId] != address(0), "Product is added to history already");
         require(nodeNames[msg.sender], "Your node is not register yet");
 
@@ -74,5 +79,29 @@ contract LittlepoProductHistory is UserRole {
         product.addHistory(nodes[msg.sender], _parentQrCodeId, now);
 
         return true;
+    }
+
+    function addChildForProductBatch(bytes32 _parentQRCodeId, BaseProduct _child) public onlyOperator returns (bool){
+        bytes32[] storage childIds = productChildIds[_parentQRCodeId];
+        address[] storage childAddrs = productChildAddress[_parentQRCodeId];
+
+        childIds.push(_child.qrCodeId());
+        childAddrs.push(_child);
+
+        productChildIds[_parentQRCodeId] = childIds;
+        productChildAddress[_parentQRCodeId] = childAddrs;
+
+        return true;
+    }
+
+    function getChildsOfProductBatch(bytes32 _parentQRCodeId) public view returns (bytes32[]) {
+        return productChildIds[_parentQRCodeId];
+    }
+
+
+    function shareOperator(BaseProduct _baseProduct) public onlyOperator returns(bool) {
+        for(uint i = 0; i < nodeList.length; i++) {
+            _baseProduct.addOperator(baseNodes[nodeList[i]]);
+        }
     }
 }

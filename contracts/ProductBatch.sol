@@ -20,11 +20,11 @@ contract ProductBatch is BaseProduct {
     function addChild(BaseProduct _child) public onlyOperator returns(bool){
         require(childCounter < MAX_PRODUCT_CHILD, "Cannot add more child");
 
-        childIds[childCounter - 1] = _child.qrCodeId();
-        childNames[childCounter - 1] = _child.productName();
-        childAddress.push(address(_child));
+        childIds.push(_child.qrCodeId());
+        childNames.push(_child.productName());
+        childAddress.push(_child);
 
-        childCounter++;
+        childCounter = childCounter + 1;
 
         return true;
     }

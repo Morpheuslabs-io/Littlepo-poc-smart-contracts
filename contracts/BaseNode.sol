@@ -9,6 +9,8 @@ contract BaseNode is UserRole {
     
     mapping(bytes32 => ProductBatch) internal productBatches;
     mapping(bytes32 => ProductBatch[]) internal productLinks;
+    // mapping(bytes32 => ProductBatch[]) internal productLinks;
+
 
     LittlepoProductHistory public littlepoProductHistory;
     BaseNode public previousNode;

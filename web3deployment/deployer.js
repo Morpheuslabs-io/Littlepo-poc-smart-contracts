@@ -31,11 +31,11 @@ async function sendTx(txObject) {
         console.log("Estimated gas", gasLimit);
     }
     catch (e) {
-        gasLimit = 500 * 1000;
+        gasLimit = 5000 * 1000;
     }
 
     if(txTo !== null) {
-        gasLimit = 500 * 1000;
+        gasLimit = 5000 * 1000;
     }
 
     const txData = txObject.encodeABI();
@@ -126,36 +126,36 @@ async function main() {
     let tx;
     //registerHistory
     tx = await sendTx(littlepoProductTrackingContract.methods.registerHistory(littlepoProductHistoryContract.options.address));
-    console.log("==> registerHistory", tx.transactionHash);
+    console.log("registerHistory", tx.transactionHash);
     //registerProductFactory
     tx = await sendTx(littlepoProductTrackingContract.methods.registerProductFactory(productFactoryContract.options.address));
-    console.log("==> registerProductFactory", tx.transactionHash);
+    console.log("registerProductFactory", tx.transactionHash);
 
     //littlepoProductHistoryContract
     // registerNode
     let nodeName = await productHarvesterNodeContract.methods.getNodeName().call();
-    console.log("==> Node name", web3.utils.toAscii(nodeName));
+    console.log("Node name", web3.utils.toAscii(nodeName));
 
     tx = await sendTx(littlepoProductHistoryContract.methods.registerNode(nodeName, productHarvesterNodeContract.options.address));
-    console.log("==> register ProductHarvest node", tx.transactionHash);
+    console.log("register ProductHarvest node", tx.transactionHash);
 
     nodeName = await productPackerNodeContract.methods.getNodeName().call();
-    console.log("==> Node name", web3.utils.toAscii(nodeName));
+    console.log("Node name", web3.utils.toAscii(nodeName));
 
     tx = await sendTx(littlepoProductHistoryContract.methods.registerNode(nodeName, productPackerNodeContract.options.address));
-    console.log("==> register Packer node", tx.transactionHash);
+    console.log("register Packer node", tx.transactionHash);
 
     nodeName = await littlepoNodeContract.methods.getNodeName().call();
-    console.log("==> Node name", web3.utils.toAscii(nodeName));
+    console.log("Node name", web3.utils.toAscii(nodeName));
 
     tx = await sendTx(littlepoProductHistoryContract.methods.registerNode(nodeName, littlepoNodeContract.options.address));
-    console.log("==> register Littpo Node", tx.transactionHash);
+    console.log("register Littpo Node", tx.transactionHash);
 
     nodeName = await retailShopNodeContract.methods.getNodeName().call();
-    console.log("==> Node name", web3.utils.toAscii(nodeName));
+    console.log("Node name", web3.utils.toAscii(nodeName));
 
     tx = await sendTx(littlepoProductHistoryContract.methods.registerNode(nodeName, retailShopNodeContract.options.address));
-    console.log("==> register Littpo Node", tx.transactionHash);
+    console.log("register Littpo Node", tx.transactionHash);
     
     //node
     //setProductStorage
@@ -175,7 +175,20 @@ async function main() {
     tx = await sendTx(productPackerNodeContract.methods.setPreviousNode(productHarvesterNodeContract.options.address));
     console.log("==> set Previous for Packer node", tx.transactionHash);
 
-    console.log("Finished deployment")
+    console.log("Finished deployment");
+
+    testMainFlow(
+        legalEntityContract,
+        userLoginContract,
+        productFactoryContract,
+        productHarvesterNodeContract,
+        productPackerNodeContract,
+        littlepoNodeContract,
+        retailShopNodeContract,
+        littlepoProductHistoryContract,
+        littlepoProductTrackingContract
+    );
+
 }
 
 function sleep(ms){
@@ -194,6 +207,70 @@ async function waitForEth() {
         }
         else await sleep(10000)
     }
+}
+
+async function testMainFlow(
+    legalEntityContract,
+    userLoginContract,
+    productFactoryContract,
+    productHarvesterNodeContract,
+    productPackerNodeContract,
+    littlepoNodeContract,
+    retailShopNodeContract,
+    littlepoProductHistoryContract,
+    littlepoProductTrackingContract
+) {
+    let baseProductABI = [{"constant":true,"inputs":[],"name":"bBatchNo","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"nodeId","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"admin","type":"address"}],"name":"removeAdmin","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"times","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getOperators","outputs":[{"name":"","type":"address[]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"containerId","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"containerType","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getAdmins","outputs":[{"name":"","type":"address[]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"location","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"newAdmin","type":"address"}],"name":"addAdmin","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"productName","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"actions","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"parentNodeIds","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"newOperator","type":"address"}],"name":"addOperator","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"dateTimeOut","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"operator","type":"address"}],"name":"removeOperator","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"createdTime","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"productId","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"producerId","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"dateTimeIn","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"legalEntity","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"qrCodeId","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"newOperator","type":"address"},{"indexed":false,"name":"isAdd","type":"bool"}],"name":"OperatorAdded","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"newAdmin","type":"address"},{"indexed":false,"name":"isAdd","type":"bool"}],"name":"AdminAdded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"previousOwner","type":"address"}],"name":"OwnershipRenounced","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"previousOwner","type":"address"},{"indexed":true,"name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"constant":false,"inputs":[{"name":"_action","type":"bytes32"},{"name":"parentQRCodeId","type":"bytes32"},{"name":"_time","type":"uint256"}],"name":"addHistory","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"getHistory","outputs":[{"name":"","type":"bytes32[]"},{"name":"","type":"bytes32[]"},{"name":"","type":"uint256[]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_timeOut","type":"uint256"}],"name":"setDateTimeOut","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"}];
+    console.log("Start testing main flow");
+    // create product batch for Harvester
+    let data = "bQrCode01,productBNo01,B2,B3,B4,B5,B6,B7,B8".split(",");
+    let tx = await sendTx(productHarvesterNodeContract.methods.createProductBatch(arrToBytes32(data)));
+    console.log("createProductBatch for Harvester Node",data,tx.transactionHash);
+
+    data = "dqrCodeIdNo1,dBatchNo01,productBNo01,D3,D4,D5,D6,D7,D8,D9,D10".split(",");
+    tx = await sendTx(productPackerNodeContract.methods.createProductBatch(arrToBytes32(data)));
+    console.log("createProductBatch for Packer Node",data, tx.transactionHash);
+
+    data = "dxqrCodeIdNo1,dBatchNo01,productBNo01,T3,T4,T5,T6,T7,T8,T9".split(",");
+    tx = await sendTx(productPackerNodeContract.methods.addTeaBagBatch(getBytes32("dqrCodeIdNo1"),arrToBytes32(data)));
+    console.log("Create new teabag for Packer Node",data, tx.transactionHash);
+
+    data = "dxqrCodeIdNo2,dBatchNo01,productBNo01,T3,T4,T5,T6,T7,T8,T9".split(",");
+    tx = await sendTx(productPackerNodeContract.methods.addTeaBagBatch(getBytes32("dqrCodeIdNo1"),arrToBytes32(data)));
+    console.log("Create new teabag for Packer Node",data, tx.transactionHash);
+
+    // let teabag = await littlepoProductHistoryContract.methods.getBaseProducByQR(getBytes32("dxqrCodeIdNo2")).call();
+    // let teabagContract = new web3.eth.Contract(baseProductABI,teabag);
+
+    // console.log("Final tracking info", await teabagContract.methods.getHistory().call());
+
+    // data = "dxqrCodeIdNo2,dBatchNo01,productBNo01,T3,T4,T5,T6,T7,T8,T9".split(",");
+    tx = await sendTx(littlepoNodeContract.methods.receiveProductBatch(getBytes32("dqrCodeIdNo1")));
+    console.log("Receive all teabab in LittleNode",tx.transactionHash);
+
+    // tx = await sendTx(retailShopNodeContract.methods.receiveProductBatch(getBytes32("dqrCodeIdNo1")));
+    // console.log("Receive all teabab in LittleNode",tx);
+
+    data = "rQrCodeIdNo1,dxqrCodeIdNo1,dBatchNo01,productBNo01,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13".split(",");
+    tx = await sendTx(retailShopNodeContract.methods.createProductBatch(arrToBytes32(data)));
+    console.log("Sell teabag 1",data,tx.transactionHash);
+
+    teabag = await littlepoProductHistoryContract.methods.getBaseProducByQR(getBytes32("dxqrCodeIdNo2")).call();
+    // console.log("TeaBag",teabag);
+    teabagContract = new web3.eth.Contract(baseProductABI,teabag);
+
+    console.log("Final tracking info", await teabagContract.methods.getHistory().call());
+}
+
+function arrToBytes32(arr) {
+    let submitData = [];
+    arr.forEach(d => submitData.push(getBytes32(d)));
+
+    return submitData;
+}
+
+function getBytes32(str) {
+    return web3.utils.fromAscii(str);
 }
 
 main();

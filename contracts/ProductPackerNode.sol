@@ -27,8 +27,10 @@ contract ProductPackerNode is BaseNode {
         require(bArgs.length == 11, "Incorrect parameter length, need to be 11");
         require(productBatches[bArgs[0]] == address(0), "Package is already created");
 
-        PackerBatch pb = new PackerBatch (NODE_NAME, bArgs);
+        ProductBatch productBatch = previousNode.getProductBatchByBatchNo(bArgs[2])[0];
+        require(productBatch != address(0), "bBatchNo does not exist");
 
+        PackerBatch pb = new PackerBatch (NODE_NAME, bArgs);
         // add litlePohistory as operator
         productBatches[pb.qrCodeId()] = pb;
         productLinks[pb.dBatchNo()].push(pb);
@@ -40,8 +42,8 @@ contract ProductPackerNode is BaseNode {
         return true;
     }
 
-    // Teabag arguments
-    // bytes32 _qrCodeId,
+    // bytes32 _qrCodeId, (dxQrCodeId)
+    // bytes32 _dBatchNo
     // bytes32 _bBatchNo,
     // bytes32 _productName,
     // bytes32 _location,
@@ -52,20 +54,26 @@ contract ProductPackerNode is BaseNode {
     // bytes32 _legalEntity
     function addTeaBagBatch(bytes32 _packerBatchQRId, bytes32[] bArgs) public onlyOperator returns (bool) {
         require(littlepoProductHistory != address(0), "Storage is not config yet");
-        require(bArgs.length == 11, "Incorrect parameter length, need to be 11");
+        require(bArgs.length == 10, "Incorrect parameter length, need to be 10");
         // require(productBatches[bArgs[0]] == address(0), "Package is already created");
-        require(productBatches[_packerBatchQRId] != address(0), "Invalid Packer Batch qrCodeId");
+        require(productBatches[_packerBatchQRId] != address(0), "Packer batch does not exist");
+
+        ProductBatch pb = previousNode.getProductBatchByBatchNo(bArgs[2])[0];
+        require(pb != address(0), "dBatchNo does not exist");
+
 
         TeaBag tb = new TeaBag (NODE_NAME, bArgs);
 
         // add litlePohistory as operator
-        ProductBatch pb = previousNode.getProductBatchByBatchNo(tb.bBatchNo())[0];
-
-        tb.addOperator(littlepoProductHistory);
+        
         tb.addHistory(pb.nodeId(), pb.qrCodeId(), pb.createdTime());
+        tb.transferOwnership(littlepoProductHistory);
 
-        littlepoProductHistory.updateTrackingInfo(pb.qrCodeId(), tb);
-        productBatches[_packerBatchQRId].addChild(tb);
+        littlepoProductHistory.updateTrackingInfo(_packerBatchQRId, tb);
+        littlepoProductHistory.addChildForProductBatch(_packerBatchQRId, tb);
+
+        // tb.transferOwnership(littlepoProductHistory);
+        littlepoProductHistory.shareOperator(tb);
 
         return true;
     }
