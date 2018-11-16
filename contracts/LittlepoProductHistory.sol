@@ -13,7 +13,7 @@ contract LittlepoProductHistory is UserRole {
     mapping(address => bool) internal nodeNames;
     mapping(bytes32 => BaseNode) internal baseNodes;
 
-    bytes32[20] internal nodeList;
+    bytes32[] internal nodeList;
 
     uint internal counter = 1;
 
@@ -22,7 +22,8 @@ contract LittlepoProductHistory is UserRole {
         require(nodeList.length <= 20, "Cannot add more nodes");
 
         nodes[_baseNodeAddress] = _nodeName;
-        nodeList[counter - 1] = _nodeName;
+        // nodeList[counter - 1] = _nodeName;
+        nodeList.push(_nodeName);
         nodeNames[_baseNodeAddress] = true;
         baseNodes[_nodeName] = BaseNode(_baseNodeAddress);
         counter++;
@@ -32,7 +33,7 @@ contract LittlepoProductHistory is UserRole {
         return true;
     }
 
-    function getNodes() external view returns (bytes32[20]) {
+    function getNodes() external view returns (bytes32[]) {
         return nodeList;
     }
 
