@@ -339,6 +339,8 @@ li.init {
   .form-row .form-group-ans {
     width: 55%;
     padding: 0 15px; }
+  .form-row .video-group {
+    padding: 0 15px; }
 
 .form-group {
   margin-bottom: 23px;
@@ -363,5 +365,7 @@ li.init {
   .appointment-form {
     padding: 50px 30px 70px 30px; } }
 	
-
+video {
+  background-color:#CBCBCB;
+}
 

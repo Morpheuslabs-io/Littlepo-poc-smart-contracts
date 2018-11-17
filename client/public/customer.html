@@ -18,12 +18,20 @@
 
         <div class="container">
             <form method="POST" class="appointment-form" id="appointment-form">
-                <h2>Query Product Tracking history</h2>
+                <h2>Query Tracking Information</h2>
                 <div class="form-group-1">
-                	<input type="text" name="qrCodeId" id="qrCodeId" placeholder="QRCode" required />
+                    <input type="text" name="qrCodeId" id="qrCodeId" placeholder="Please enter of scan QRCode of product" required />
+                </div>
+                <div class="form-row">
+                    <div class="video-group">
+                        <video id="preview" style="min-height: 100%;width: 250px; border: solid 1px gray;"></video>
+                    </div>
+                    <div class="form-group-ans">
+                        <div id="scanResult"></div>
+                    </div>
                 </div>
                 <div class="form-submit">
-                    <input type="reset" name="cancel" id="cancel" class="cancel" value="Cancel" />
+                        <input type="reset" name="Scan" id="scan" class="cancel" value="Scan QRCode"/>
                     <input type="submit" name="submit" id="submit" class="submit" value="Submit" />
                 </div>
             </form>
@@ -32,7 +40,9 @@
     </div>
 
     <!-- JS -->
+    <script type="text/javascript" src="/js/instascan.min.js"></script>
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/js/main.js"></script>
+    <script src="/js/littlepo.js"></script>
 </body>
 </html>

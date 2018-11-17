@@ -37,14 +37,19 @@ NodeApp.prototype.init = function () {
         res.render('packerMenu.html');
     });
 
-    this.app.get('/packer/addpackage', (req,res) => {
-        res.render('packer.html');
+    this.app.get('/packer/scanharvester', (req,res) => {
+        res.render('scanharvester.html');
     });
+
+    this.app.get('/packer/addpackage', this.addPackage.bind(this));
+
     this.app.post('/packer/addpackage', this.packerPost.bind(this));
 
     this.app.get('/packer/packerSubmited', (req,res) => {
         res.render('packerResult.html');
     });
+
+    // this.app.post('/packer/scanharvester', this.scanHarvester.bind(this));
 
     this.app.get('/packer/addteabag', (req,res) => {
         res.render('addteabag.html');
@@ -60,17 +65,7 @@ NodeApp.prototype.init = function () {
         res.render('littlepo.html');
     });
 
-    this.app.post('/littlepo', this.packerPost.bind(this));
-
-    this.app.get('/littlepoSubmited', (req,res) => {
-        res.render('littlepoResult.html');
-    });
-
-    this.app.get('/littlepo', (req,res) => {
-        res.render('littlepo.html');
-    });
-
-    this.app.post('/littlepo', this.packerPost.bind(this));
+    this.app.post('/littlepo', this.littlePost.bind(this));
 
     this.app.get('/littlepoSubmited', (req,res) => {
         res.render('littlepoResult.html');
@@ -105,16 +100,34 @@ NodeApp.prototype.harvestPost = function (req,res) {
     res.redirect("/harvesterSubmited");
 }
 
-NodeApp.prototype.packerPost = function (req,res) {
+NodeApp.prototype.packer = function (req,res) {
     console.log(req.body);
     // req.body.email == 
     res.redirect("/harvesterSubmited");
+}
+
+NodeApp.prototype.addPackage = function (req,res) {
+    console.log(req.query);
+
+    res.render('packer.html', req.query);
+}
+
+NodeApp.prototype.packerPost = function (req,res) {
+    console.log(req.body);
+    // req.body.email == 
+    res.redirect("/packer/packerSubmited");
 }
 
 NodeApp.prototype.addTeaBagPost = function (req,res) {
     console.log(req.body);
     // req.body.email == 
     res.redirect("/harvesterSubmited");
+}
+
+NodeApp.prototype.littlePost = function (req,res) {
+    console.log(req.body);
+    // req.body.email == 
+    res.redirect("/littlepoSubmited");
 }
 
 NodeApp.prototype.bootup = function() {
