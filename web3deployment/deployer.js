@@ -244,14 +244,14 @@ async function testMainFlow(
 
     // console.log("Final tracking info", await teabagContract.methods.getHistory().call());
 
-    // data = "dxqrCodeIdNo2,dBatchNo01,productBNo01,T3,T4,T5,T6,T7,T8,T9".split(",");
-    tx = await sendTx(littlepoNodeContract.methods.receiveProductBatch(getBytes32("dqrCodeIdNo1")));
+    data = "gQrCodeIdNo1,LA00G,gProducerId,100g".split(",");
+    tx = await sendTx(littlepoNodeContract.methods.receiveProductBatch(getBytes32("dqrCodeIdNo1"),arrToBytes32(data)));
     console.log("Receive all teabab in LittleNode",tx.transactionHash);
 
     // tx = await sendTx(retailShopNodeContract.methods.receiveProductBatch(getBytes32("dxqrCodeIdNo1")));
     // console.log("Receive all teabab in LittleNode",tx);
 
-    data = "rQrCodeIdNo1,dxqrCodeIdNo1,dBatchNo01,productBNo01,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13".split(",");
+    data = "iQrCodeIdNo1,dxqrCodeIdNo1,dBatchNo01,productBNo01,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13".split(",");
     tx = await sendTx(retailShopNodeContract.methods.createProductBatch(arrToBytes32(data)));
     console.log("Sell teabag 1",data,tx.transactionHash);
 
@@ -259,18 +259,43 @@ async function testMainFlow(
     // console.log("TeaBag",teabag);
     teabagContract = new web3.eth.Contract(baseProductABI,teabag);
 
-    console.log("Final tracking info", await teabagContract.methods.getHistory().call());
+    const tracking = await teabagContract.methods.getHistory().call();
+
+    // console.log("Get tracking history info", tracking);
+    const nodes = tracking[0];
+    const parentIds = tracking[1];
+    const times = tracking[2];
+
+    // console.log(nodes, parentIds, times);
+
+    // nodes.forEach(n => console.log(web3.utils.toAscii(n)));
+
+    console.log("Query detail tracking information");
+
+    if(parentIds && parentIds.length > 0){
+        for(let i = 0; i < parentIds.length; i++) {
+            let pb = await littlepoProductHistoryContract.methods.getProductBatchByQR(parentIds[i]).call();
+            (pb && pb.length > 0) && console.log("Node",getStr(nodes[i]),"=>", pb.map(f => getStr(f)).join()+","+times[i]);
+        }
+    }
+    // parentIds.forEach(await async function(id) {
+    //     console.log("Find by id", web3.utils.toAscii(id));
+        
+    // });
+
+    // times.forEach(time => console.log(time));
 }
 
 function arrToBytes32(arr) {
-    let submitData = [];
-    arr.forEach(d => submitData.push(getBytes32(d)));
-
-    return submitData;
+    let na = [];
+    arr.forEach(d => na.push(getBytes32(d)));
+    return na;
 }
-
 function getBytes32(str) {
     return web3.utils.fromAscii(str);
+}
+function getStr(b) {
+    return web3.utils.toAscii(b);
 }
 
 main();
