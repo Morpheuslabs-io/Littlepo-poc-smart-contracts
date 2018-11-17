@@ -75,6 +75,20 @@ NodeApp.prototype.init = function () {
     this.app.get('/littlepoSubmited', (req,res) => {
         res.render('littlepoResult.html');
     });
+
+    this.app.get('/retailshop', (req,res) => {
+        res.render('retailshop.html');
+    });
+
+    this.app.post('/retailshop', this.packerPost.bind(this));
+
+    this.app.get('/retailshopSubmited', (req,res) => {
+        res.render('retailshopResult.html');
+    });
+
+    this.app.get('/customer', (req,res) => {
+        res.render('customer.html');
+    });
     
     // this.app.post('/api/levels', this.setUpLevel.bind(this));
 }

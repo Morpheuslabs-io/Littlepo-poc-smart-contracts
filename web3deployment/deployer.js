@@ -248,14 +248,14 @@ async function testMainFlow(
     tx = await sendTx(littlepoNodeContract.methods.receiveProductBatch(getBytes32("dqrCodeIdNo1")));
     console.log("Receive all teabab in LittleNode",tx.transactionHash);
 
-    // tx = await sendTx(retailShopNodeContract.methods.receiveProductBatch(getBytes32("dqrCodeIdNo1")));
+    // tx = await sendTx(retailShopNodeContract.methods.receiveProductBatch(getBytes32("dxqrCodeIdNo1")));
     // console.log("Receive all teabab in LittleNode",tx);
 
     data = "rQrCodeIdNo1,dxqrCodeIdNo1,dBatchNo01,productBNo01,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13".split(",");
     tx = await sendTx(retailShopNodeContract.methods.createProductBatch(arrToBytes32(data)));
     console.log("Sell teabag 1",data,tx.transactionHash);
 
-    teabag = await littlepoProductHistoryContract.methods.getBaseProducByQR(getBytes32("dxqrCodeIdNo2")).call();
+    teabag = await littlepoProductHistoryContract.methods.getBaseProducByQR(getBytes32("dxqrCodeIdNo1")).call();
     // console.log("TeaBag",teabag);
     teabagContract = new web3.eth.Contract(baseProductABI,teabag);
 

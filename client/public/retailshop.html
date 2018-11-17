@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Packer UI</title>
+    <title>Harvester UI</title>
 
     <!-- Font Icon -->
-    <link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
 
     <!-- Main css -->
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -18,11 +18,13 @@
 
         <div class="container">
             <form method="POST" class="appointment-form" id="appointment-form">
-                <h2>Packer UI</h2>
+                <h2>RetailShop UI</h2>
                 <div class="form-group-1">
                 	<input type="text" name="productId" id="productId" placeholder="Product Id" required />
                     <input type="text" name="productName" id="productName" placeholder="Product Name" required/>
                     <input type="text" name="packageType" id="packageType" placeholder="Package Type" required/>
+
+                    <input type="text" name="dxQRCodeId" id="dxQRCodeId" placeholder="Teabag QRCode" required />
                 </div>
                 <div class="form-submit">
                     <input type="reset" name="cancel" id="cancel" class="cancel" value="Cancel" />
@@ -34,7 +36,7 @@
     </div>
 
     <!-- JS -->
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/js/main.js"></script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>

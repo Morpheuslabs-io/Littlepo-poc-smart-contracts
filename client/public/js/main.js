@@ -47,28 +47,13 @@
         $("#hour_appointment").children('.init').html($(this).html());
         AppointmentOptions.toggle('slow');
     });
+
+    applyCancelAction();
 })(jQuery);
 
-function applySelectBox(selector) {
-    const element = $(selector);
-    const parent = element.parent();
-    parent.append('<ul class="list-item" id="newcourse_type" name="course_type"></ul>');
-    $('option', element).each(function(){
-        $('#newcourse_type', parent).append('<li value="' + $(this).val() + '">'+$(this).text()+'</li>');
-    });
-    element.remove();
-    $('#newcourse_type', element).attr('id', 'course_type');
-    $('li', element).first().addClass('init');
-    element.on("click", ".init", function() {
-        $(this).closest(element).children('li:not(.init)').toggle('slow');
-    });
-
-    var allOptions = element.children('li:not(.init)');
-    element.on("click", "li:not(.init)", function() {
-        allOptions.removeClass('selected');
-        $(this).addClass('selected');
-        element.children('.init').html($(this).html());
-        allOptions.toggle('slow');
+function applyCancelAction() {
+    $("#cancel").click(function() {
+        window.location.href = "/menu";
     });
 }
 
