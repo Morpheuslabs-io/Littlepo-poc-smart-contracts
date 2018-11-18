@@ -88,6 +88,8 @@ NodeApp.prototype.init = function () {
     this.app.get('/customer', (req,res) => {
         res.render('customer.html');
     });
+
+    this.app.post('/customer', this.customerQuery.bind(this));
     
     // this.app.post('/api/levels', this.setUpLevel.bind(this));
 }
@@ -96,6 +98,19 @@ NodeApp.prototype.login = function (req,res) {
     // console.log(req);
     // req.body.email == 
     res.redirect('/menu');
+}
+
+NodeApp.prototype.customerQuery = function (req,res) {
+    let aRes = this.apiConnector.getProductBatch(req.body.qrCodeId);
+    aRes.then((response) => {
+        console.log("get data",response.data);
+
+        res.render("queryResult.html", response.data);
+    }).catch((error) => {
+        // handle error
+        console.log(error.config);
+        res.render("error.html");
+    });
 }
 
 NodeApp.prototype.harvestPost = function (req,res) {
