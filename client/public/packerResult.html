@@ -7,10 +7,10 @@
     <title>Packer UI</title>
 
     <!-- Font Icon -->
-    <link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
 
     <!-- Main css -->
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -18,13 +18,13 @@
 
         <div class="container">
             <form method="POST" class="appointment-form" id="appointment-form">
-                <h2>Packer Result</h2>
+                <h2>Packer UI</h2>
                 <div class="form-row">
                 	<div class="form-group">
                         <label>Node ID:</label>
                     </div>
                     <div class="form-group-ans">
-                        <label>0xAF35b0.........b47f77Ad</label>
+                        <label><%= nodeID %></label>
                     </div>
                 </div>
                 <div class="form-row">
@@ -32,7 +32,7 @@
                         <label>Node Type:</label>
                     </div>
                     <div class="form-group-ans">
-                        <label>B_Node</label>
+                        <label><%= nodeType %></label>
                     </div>
                 </div>
                 <div class="form-row">
@@ -40,23 +40,23 @@
                         <label>User ID:</label>
                     </div>
                     <div class="form-group-ans">
-                        <label>Harvester01</label>
+                        <label><%= userID %></label>
                     </div>
                 </div>
-                <div class="form-row">
+                <!-- <div class="form-row">
                 	<div class="form-group">
                         <label>Organization:</label>
                     </div>
                     <div class="form-group-ans">
                         <label>Harvester</label>
                     </div>
-                </div>
+                </div> -->
                 <div class="form-row">
                 	<div class="form-group">
                         <label>Product:</label>
                     </div>
                     <div class="form-group-ans">
-                        <label>T100001</label>
+                        <label><%= productName %></label>
                     </div>
                 </div>
                 <div class="form-row">
@@ -72,7 +72,7 @@
                         <label>Package Type:</label>
                     </div>
                     <div class="form-group-ans">
-                        <label>Box</label>
+                        <label><%= packageType %></label>
                     </div>
                 </div>
                 <div class="form-row">
@@ -80,7 +80,16 @@
                         <label>Batch No:</label>
                     </div>
                     <div class="form-group-ans">
-                        <label>P100001181012001</label>
+                        <label><%= bbatchNo %></label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>QR Code:</label>
+                    </div>
+                    <div class="form-group-ans">
+                        <div id="qrcode"></div>
+                        <label><%= bqrCodeID %></label>
                     </div>
                 </div>
                 <div class="form-row">
@@ -88,28 +97,33 @@
                         <label>Location:</label>
                     </div>
                     <div class="form-group-ans">
-                        <label>1,352083 , 103.819839</label>
+                        <label><%= location %></label>
                     </div>
                 </div>
-                <div class="form-row">
-                	<div class="form-group">
-                        <label>DateTime:</label>
-                    </div>
-                    <div class="form-group-ans">
-                        <label>2018-10-11 16:15:11</label>
-                    </div>
-                </div>
+                
                 <div class="form-submit">
-                    <input type="reset" name="cancel" id="cancel" class="cancel" value="Cancel" />
-                    <input type="submit" name="submit" id="submit" class="submit" value="Submit" />
+                    <input type="reset" name="cancel" id="cancel" class="cancel" value="Back To Menu" />
+                    <input type="reset" name="printQR" id="printQR" class="submit" value="Print QR Code" />
                 </div>
             </form>
         </div>
 
     </div>
-
     <!-- JS -->
     <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/js/qrcode.min.js"></script>
     <script src="/js/main.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var qrcode = new QRCode(document.getElementById("qrcode"), {
+                text: '<%= bqrCodeID %>',
+                width: 200,
+                height: 200,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+    </script>
 </body>
 </html>

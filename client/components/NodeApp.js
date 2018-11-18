@@ -1,10 +1,14 @@
 "use strict"
 
 const path  = require("path");
+const APIConnector  = require("./APIConnector");
+
 //starting point
 const NodeApp = function (app) {
     this.PORT = process.env.PORT || 3000;
     this.app = app;
+
+    this.apiConnector = new APIConnector();
     //test
     this.init();
 }
@@ -96,8 +100,17 @@ NodeApp.prototype.login = function (req,res) {
 
 NodeApp.prototype.harvestPost = function (req,res) {
     console.log(req.body);
-    // req.body.email == 
-    res.redirect("/harvesterSubmited");
+
+    let aRes = this.apiConnector.trackProducyHarvester(req.body);
+    aRes.then((response) => {
+        console.log(response.data)
+        res.render("harvesterResult.html", response.data);
+    })
+    .catch((error) => {
+        // handle error
+        console.log(error);
+        res.render("error.html");
+    });
 }
 
 NodeApp.prototype.packer = function (req,res) {
@@ -113,9 +126,33 @@ NodeApp.prototype.addPackage = function (req,res) {
 }
 
 NodeApp.prototype.packerPost = function (req,res) {
-    console.log(req.body);
-    // req.body.email == 
-    res.redirect("/packer/packerSubmited");
+    console.log("PackerPost",req.body);
+    let aRes = this.apiConnector.getProductBatch(req.body.qrCodeId);
+    aRes.then((response) => {
+        console.log("get data",response.data);
+
+        let packer = {};
+        packer.bbatchNo = response.data.bbatchNo;
+        data.packageType = req.body.packageType;
+        data.productID = req.body.productID;
+        data.productName = req.body.productName;
+
+        let createPackerRes = this.apiConnector.trackProductPacker(packer);
+        createPackerRes.then((resInner) => {
+            console.log(resInner.data)
+            res.render("packerResult.html", resInner.data);
+        })
+        .catch((error) => {
+            // handle error
+            console.log(error);
+            res.render("error.html");
+        });
+    })
+    .catch((error) => {
+        // handle error
+        console.log(error.config);
+        res.render("error.html");
+    });
 }
 
 NodeApp.prototype.addTeaBagPost = function (req,res) {

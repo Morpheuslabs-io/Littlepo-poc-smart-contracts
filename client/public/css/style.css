@@ -334,7 +334,7 @@ li.init {
   display: inline-flex;
   width: 100%; }
   .form-row .form-group {
-    width: 70px;
+    width: 100px;
     padding: 0 15px; }
   .form-row .form-group-ans {
     width: 55%;
