@@ -49,11 +49,21 @@
     });
 
     applyCancelAction();
+    applyBackAction();
 })(jQuery);
 
 function applyCancelAction() {
     $("#cancel").click(function() {
         window.location.href = "/menu";
+    });
+}
+function applyBackAction() {
+    $("#back").click(function() {
+        let url = $(this).attr('url');
+        url = (!url || url=="")?"/menu":url;
+        // alert($(this).val());
+        // console.log($(this).val());
+        window.location.href = url;
     });
 }
 

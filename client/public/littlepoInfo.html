@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Littlepo UI</title>
+    <title>LittlePo UI</title>
 
     <!-- Font Icon -->
     <link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
@@ -17,8 +17,8 @@
     <div class="main">
 
         <div class="container">
-            <form method="POST" class="appointment-form" id="appointment-form">
-                <h2>Littlepo receive result</h2>
+            <form method="POST" class="appointment-form" id="appointment-form" action="littleporeceive">
+                <h2>Little UI</h2>
                 <div class="form-row">
                 	<div class="form-group">
                         <label>Node ID:</label>
@@ -40,17 +40,17 @@
                         <label>User ID:</label>
                     </div>
                     <div class="form-group-ans">
-                        <label><%= userID %></label>
+                        <label><%= nodeType %></label>
                     </div>
                 </div>
-                <!-- <div class="form-row">
+                <div class="form-row">
                 	<div class="form-group">
                         <label>Organization:</label>
                     </div>
                     <div class="form-group-ans">
-                        <label>Harvester</label>
+                        <label><%= legalEntity %></label>
                     </div>
-                </div> -->
+                </div>
                 <div class="form-row">
                 	<div class="form-group">
                         <label>Product:</label>
@@ -60,12 +60,27 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group">
-                        <label>QR Code:</label>
+                	<div class="form-group">
+                        <label>Container ID:</label>
                     </div>
                     <div class="form-group-ans">
-                        <div id="qrcode"></div>
-                        <label><%= gqrCodeID %></label>
+                        <label><%= legalEntity %></label>
+                    </div>
+                </div>
+                <div class="form-row">
+                	<div class="form-group">
+                        <label>Package Type:</label>
+                    </div>
+                    <div class="form-group-ans">
+                        <label><%= packageType %></label>
+                    </div>
+                </div>
+                <div class="form-row">
+                	<div class="form-group">
+                        <label>Batch No:</label>
+                    </div>
+                    <div class="form-group-ans">
+                        <label><%= bbatchNo %></label>
                     </div>
                 </div>
                 <div class="form-row">
@@ -76,30 +91,27 @@
                         <label><%= location %></label>
                     </div>
                 </div>
-                
+                <div class="form-row">
+                	<div class="form-group">
+                        <label>Package weight</label>
+                    </div>
+                    <div class="form-group-ans">
+                        <label><%= weight %></label>
+                    </div>
+                </div>
+                <input type="hidden" name="qrCodeId" value="<%= dqrCodeID %>" />
+                <input type="hidden" name="weight" value="<%= weight %>" />
                 <div class="form-submit">
-                    <input type="reset" name="cancel" id="cancel" class="cancel" value="Back To Menu" />
-                    <input type="reset" name="printQR" id="printQR" class="submit" value="Print QR Code" />
+                    <input type="reset" name="cancel" id="cancel" class="cancel" value="Cancel" />
+                    <input type="submit" name="submit" id="submit" class="submit" value="Confirm Receive" />
                 </div>
             </form>
         </div>
 
     </div>
+
     <!-- JS -->
     <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/js/qrcode.min.js"></script>
     <script src="/js/main.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var qrcode = new QRCode(document.getElementById("qrcode"), {
-                text: '<%= gqrCodeID %>',
-                width: 200,
-                height: 200,
-                colorDark : "#000000",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.H
-            });
-        });
-    </script>
 </body>
 </html>

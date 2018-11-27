@@ -7,10 +7,10 @@
     <title>Packer UI</title>
 
     <!-- Font Icon -->
-    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
 
     <!-- Main css -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
@@ -89,7 +89,7 @@
                     </div>
                     <div class="form-group-ans">
                         <div id="qrcode"></div>
-                        <label><%= bqrCodeID %></label>
+                        <label><%= dqrCodeID %></label>
                     </div>
                 </div>
                 <div class="form-row">
@@ -116,7 +116,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             var qrcode = new QRCode(document.getElementById("qrcode"), {
-                text: '<%= bqrCodeID %>',
+                text: '<%= dqrCodeID %>',
                 width: 200,
                 height: 200,
                 colorDark : "#000000",

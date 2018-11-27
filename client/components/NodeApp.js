@@ -7,9 +7,13 @@ const APIConnector  = require("./APIConnector");
 const NodeApp = function (app) {
     this.PORT = process.env.PORT || 3000;
     this.app = app;
-
     this.apiConnector = new APIConnector();
-    //test
+
+    this.nodeB ="node-b";
+    this.nodeD = "node-d";
+    this.nodeG = "node-g";
+    this.nodeI = "node-i";
+
     this.init();
 }
 NodeApp.prototype.init = function () {
@@ -42,6 +46,7 @@ NodeApp.prototype.init = function () {
     });
 
     this.app.get('/packer/scanharvester', (req,res) => {
+        // this.scanHarvesterBox.bind(this));
         res.render('scanharvester.html');
     });
 
@@ -69,11 +74,13 @@ NodeApp.prototype.init = function () {
         res.render('littlepo.html');
     });
 
-    this.app.post('/littlepo', this.littlePost.bind(this));
+    this.app.post('/littlepo', this.littleScan.bind(this));
 
-    this.app.get('/littlepoSubmited', (req,res) => {
-        res.render('littlepoResult.html');
-    });
+    this.app.post('/littleporeceive', this.littleCreateProductBatch.bind(this));
+
+    // this.app.get('/littlepoSubmited', (req,res) => {
+    //     res.render('littlepoResult.html');
+    // });
 
     this.app.get('/retailshop', (req,res) => {
         res.render('retailshop.html');
@@ -114,11 +121,11 @@ NodeApp.prototype.customerQuery = function (req,res) {
 }
 
 NodeApp.prototype.harvestPost = function (req,res) {
-    console.log(req.body);
+    console.log("Harvest tracking request",req.body);
 
     let aRes = this.apiConnector.trackProducyHarvester(req.body);
     aRes.then((response) => {
-        console.log(response.data)
+        console.log("Response", response.data);
         res.render("harvesterResult.html", response.data);
     })
     .catch((error) => {
@@ -128,6 +135,10 @@ NodeApp.prototype.harvestPost = function (req,res) {
     });
 }
 
+// NodeApp.prototype.scanHarvesterBox = function(req,res) {
+    
+// }
+
 NodeApp.prototype.packer = function (req,res) {
     console.log(req.body);
     // req.body.email == 
@@ -135,38 +146,47 @@ NodeApp.prototype.packer = function (req,res) {
 }
 
 NodeApp.prototype.addPackage = function (req,res) {
-    console.log(req.query);
-
-    res.render('packer.html', req.query);
+    console.log("Get Harvester Box Info", req.query);
+    let aRes = this.apiConnector.getProductBatch(this.nodeB, req.query.qrCodeId);
+    aRes.then((response) => {
+        console.log("Product batch info", response.data);
+        res.render('packer.html', req.query);
+    })
+    .catch((error) => {
+        // handle error
+        console.log(error.response.data);
+        res.render("error.html", error.response.data);
+    });
 }
 
 NodeApp.prototype.packerPost = function (req,res) {
     console.log("PackerPost",req.body);
-    let aRes = this.apiConnector.getProductBatch(req.body.qrCodeId);
+    let aRes = this.apiConnector.getProductBatch(this.nodeB, req.body.qrCodeId);
     aRes.then((response) => {
-        console.log("get data",response.data);
+        console.log("Get product data for packer", response.data);
 
         let packer = {};
         packer.bbatchNo = response.data.bbatchNo;
-        data.packageType = req.body.packageType;
-        data.productID = req.body.productID;
-        data.productName = req.body.productName;
+        packer.packageType = req.body.packageType;
+        packer.productID = req.body.productID;
+        packer.productName = req.body.productName;
+        packer.weight = req.body.weight;
 
         let createPackerRes = this.apiConnector.trackProductPacker(packer);
         createPackerRes.then((resInner) => {
-            console.log(resInner.data)
+            console.log("Packer post response",resInner.data)
             res.render("packerResult.html", resInner.data);
         })
         .catch((error) => {
             // handle error
-            console.log(error);
-            res.render("error.html");
+            console.log(error.response.data);
+            res.render("error.html",error.response.data);
         });
     })
     .catch((error) => {
         // handle error
-        console.log(error.config);
-        res.render("error.html");
+        console.log(error.response.data);
+        res.render("error.html", error.response.data);
     });
 }
 
@@ -176,10 +196,50 @@ NodeApp.prototype.addTeaBagPost = function (req,res) {
     res.redirect("/harvesterSubmited");
 }
 
-NodeApp.prototype.littlePost = function (req,res) {
-    console.log(req.body);
-    // req.body.email == 
-    res.redirect("/littlepoSubmited");
+NodeApp.prototype.littleScan = function (req,res) {
+    console.log("Get packer info", req.body);
+    // check packer node
+    let aRes = this.apiConnector.getProductBatch(this.nodeD, req.body.qrCodeId);
+    aRes.then((response) => {
+        response.data.weight = req.body.weight;
+        console.log("response", response.data);
+        res.render("littlepoInfo.html", response.data);
+    })
+    .catch((error) => {
+        // handle error
+        console.log(error.response.data);
+        res.render("error.html", error.response.data);
+    });
+}
+
+NodeApp.prototype.littleCreateProductBatch = function (req,res) {
+    console.log("Receive package at little po", req.body);
+    // check packer node
+    let aRes = this.apiConnector.getProductBatch(this.nodeD, req.body.qrCodeId);
+    aRes.then((response) => {
+        let lpo = {};
+        lpo.weight = req.body.weight;
+        lpo.dQRCodeId = req.body.qrCodeId;
+        
+        // console.log("response", response.data);
+        // res.render("littlepoInfo.html", response.data);
+        let receivePackerRes = this.apiConnector.trackProductLittlepo(lpo);
+        receivePackerRes.then((resInner) => {
+            console.log("Receive Packer response",resInner.data);
+            resInner.data.productName = response.data.productName;
+            res.render("littlepoResult.html", resInner.data);
+        }).catch((error) => {
+            // handle error
+            console.log(error.response.data);
+            error.response.data.backURL="/littlepo";
+            res.render("error.html", error.response.data);
+        });
+    })
+    .catch((error) => {
+        // handle error
+        console.log(error.response.data);
+        res.render("error.html", error.response.data);
+    });
 }
 
 NodeApp.prototype.bootup = function() {

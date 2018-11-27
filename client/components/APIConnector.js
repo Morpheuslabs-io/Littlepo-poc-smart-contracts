@@ -6,11 +6,13 @@ const Util = require('./Util');
 const APIConnector = function () {
     this.host = "localhost";
     this.port = 8080;
-    this.nodeB ="/api/product/tracking/node-b";
-    this.nodeD = "/api/product/tracking/node-d";
-    this.nodeG = "/api/product/tracking/node-g";
-    this.nodeI = "/api/product/tracking/node-i";
+    this.trackingAPI= "/api/product/tracking/";
 
+    this.nodeB ="node-b";
+    this.nodeD = "node-d";
+    this.nodeG = "node-g";
+    this.nodeI = "node-i";
+    
     // this.USER_KEY = "LOGIN_USER";
 }
 
@@ -65,7 +67,7 @@ APIConnector.prototype.getTrackingHistory = function (qrCodeId) {
 }
 
 APIConnector.prototype.trackProducyHarvester = function (harvester) {
-    const api = "/api/product/tracking/node-b";
+    // const api = "/api/product/tracking/node-b";
     // "bbatchNo": "string",
     // "bqrCodeID": "string",
     // "createTime": "string",
@@ -84,7 +86,7 @@ APIConnector.prototype.trackProducyHarvester = function (harvester) {
     data.productID = harvester.productID;
     data.productName = harvester.productName;
 
-    let phTrackingURL = Util.sprintf("http://{0}:{1}{2}", this.host, this.port, api);
+    let phTrackingURL = Util.sprintf("http://{0}:{1}{2}{3}", this.host, this.port, this.trackingAPI, this.nodeB);
     console.log("Post to",phTrackingURL);
     return axios.post(phTrackingURL, data);
 }
@@ -108,15 +110,35 @@ APIConnector.prototype.trackProductPacker = function (packer) {
     data.packageType = packer.packageType;
     data.productID = packer.productID;
     data.productName = packer.productName;
+    data.weight = packer.weight;
 
-    let phTrackingURL = Util.sprintf("http://{0}:{1}{2}", this.host, this.port, this.nodeD);
+    let phTrackingURL = Util.sprintf("http://{0}:{1}{2}{3}", this.host, this.port, this.trackingAPI, this.nodeD);
     console.log("Post to", phTrackingURL);
     return axios.post(phTrackingURL, data);
 }
 
-APIConnector.prototype.getProductBatch = function (qrCode) {
-    let phTrackingURL = Util.sprintf("http://{0}:{1}{2}?qrCodeID={3}", this.host, this.port, this.nodeB, qrCode);
-    console.log("Get data",phTrackingURL);
+APIConnector.prototype.trackProductLittlepo = function (lpo) {
+    // console.log("Request to receive package for littlepo", lpo);
+    // bytes32 _qrCodeId,
+    // bytes32 _location,
+    // bytes32 _producerId,
+    // bytes32 _weight 
+    const data = {};
+
+    data.location = "21.187630,105.781601";
+    data.producerID = "Little01";
+    data.userID = "LUser01";
+    data.weight = lpo.weight;
+    data.dQRcodeID = lpo.dQRCodeId;
+
+    let phTrackingURL = Util.sprintf("http://{0}:{1}{2}{3}", this.host, this.port, this.trackingAPI, this.nodeG);
+    console.log("Receive package at little po data", data, "url", phTrackingURL);
+    return axios.post(phTrackingURL, data);
+}
+
+APIConnector.prototype.getProductBatch = function (nodeName, qrCode) {
+    let phTrackingURL = Util.sprintf("http://{0}:{1}{2}{3}?qrCodeID={4}", this.host, this.port, this.trackingAPI, nodeName, qrCode);
+    console.log("Get product batch", phTrackingURL);
     return axios.get(phTrackingURL);
 }
 
