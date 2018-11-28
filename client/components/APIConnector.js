@@ -137,8 +137,20 @@ APIConnector.prototype.trackProductLittlepo = function (lpo) {
 }
 
 APIConnector.prototype.getProductBatch = function (nodeName, qrCode) {
-    let phTrackingURL = Util.sprintf("http://{0}:{1}{2}{3}?qrCodeID={4}", this.host, this.port, this.trackingAPI, nodeName, qrCode);
+    let phTrackingURL = "";
+    if(nodeName) {
+        phTrackingURL = Util.sprintf("http://{0}:{1}{2}{3}?qrCodeID={4}", this.host, this.port, this.trackingAPI, nodeName, qrCode);
+    } else {
+        phTrackingURL = Util.sprintf("http://{0}:{1}{2}?qrCodeID={3}", this.host, this.port, "/api/product/productbatch/qrcode", qrCode);
+    }
     console.log("Get product batch", phTrackingURL);
+    return axios.get(phTrackingURL);
+}
+
+APIConnector.prototype.getTrackingHistory = function (qrCode) {
+    let trackingHistory = '/api/product/trackinghistory';
+    let phTrackingURL = Util.sprintf("http://{0}:{1}{2}?qrCodeID={3}", this.host, this.port, trackingHistory, qrCode);
+    console.log("get product tracking history", phTrackingURL);
     return axios.get(phTrackingURL);
 }
 

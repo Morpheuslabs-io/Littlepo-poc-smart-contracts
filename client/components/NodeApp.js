@@ -97,6 +97,9 @@ NodeApp.prototype.init = function () {
     });
 
     this.app.post('/customer', this.customerQuery.bind(this));
+
+
+    this.app.get('/productinfo', this.getProductInfo.bind(this));
     
     // this.app.post('/api/levels', this.setUpLevel.bind(this));
 }
@@ -107,16 +110,31 @@ NodeApp.prototype.login = function (req,res) {
     res.redirect('/menu');
 }
 
-NodeApp.prototype.customerQuery = function (req,res) {
-    let aRes = this.apiConnector.getProductBatch(req.body.qrCodeId);
+NodeApp.prototype.getProductInfo = function (req,res) {
+    console.log("get product Info", req.query);
+    let nodeName;
+    let aRes = this.apiConnector.getProductBatch(nodeName, req.query.qrCodeId);
     aRes.then((response) => {
-        console.log("get data",response.data);
+        console.log("Get product info", response.data);
+        res.render("productInfo.html", response.data);
+    })
+    .catch((error) => {
+        // handle error
+        console.log(error.response.data);
+        res.render("error.html", error.response.data);
+    });
+}
 
-        res.render("queryResult.html", response.data);
+NodeApp.prototype.customerQuery = function (req,res) {
+    let aRes = this.apiConnector.getTrackingHistory(req.body.qrCodeId);
+    aRes.then((response) => {
+        console.log("Get Tracking history response",response.data);
+
+        res.render("queryResult.html", response);
     }).catch((error) => {
         // handle error
-        console.log(error.config);
-        res.render("error.html");
+        console.log(error.response.data);
+        res.render("error.html", error.response.data);
     });
 }
 
@@ -131,13 +149,9 @@ NodeApp.prototype.harvestPost = function (req,res) {
     .catch((error) => {
         // handle error
         console.log(error);
-        res.render("error.html");
+        res.render("error.html",error.response.data);
     });
 }
-
-// NodeApp.prototype.scanHarvesterBox = function(req,res) {
-    
-// }
 
 NodeApp.prototype.packer = function (req,res) {
     console.log(req.body);

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Product Detail</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="main">
+
+        <div class="container">
+            <form method="POST" class="appointment-form" id="appointment-form">
+                <h2>Product Information</h2>
+                <div class="form-row">
+                	<div class="form-group">
+                        <label>User ID:</label>
+                    </div>
+                    <div class="form-group-ans">
+                        <label><%= producerID %></label>
+                    </div>
+                </div>
+                <div class="form-row">
+                	<div class="form-group">
+                        <label>Product:</label>
+                    </div>
+                    <div class="form-group-ans">
+                        <label><%= productName %></label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>PackageId:</label>
+                    </div>
+                    <div class="form-group-ans">
+                        <label><%= packageID %></label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>LegalEntity:</label>
+                    </div>
+                    <div class="form-group-ans">
+                        <label><%= legalEntity %></label>
+                    </div>
+                </div>
+                <div class="form-row">
+                	<div class="form-group">
+                        <label>Location:</label>
+                    </div>
+                    <div class="form-group-ans">
+                        <label><%= location %></label>
+                    </div>
+                </div>
+                
+                <div class="form-submit">
+                    <input type="reset" name="cancel" id="reset" class="cancel" value="New Query"/>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <!-- JS -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/js/qrcode.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>
