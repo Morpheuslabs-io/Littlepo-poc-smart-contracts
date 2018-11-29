@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Teabag UI</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <div class="main">
+
+        <div class="container">
+            <form method="POST" class="appointment-form" id="appointment-form">
+                <h2>TeaBag Information</h2>
+                <div class="form-row">
+                	<div class="form-group">
+                        <label>User ID:</label>
+                    </div>
+                    <div class="form-group-ans">
+                        <label><%= producerID %></label>
+                    </div>
+                </div>
+                <div class="form-row">
+                	<div class="form-group">
+                        <label>Product:</label>
+                    </div>
+                    <div class="form-group-ans">
+                        <label><%= productName %></label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Package Type:</label>
+                    </div>
+                    <div class="form-group-ans">
+                        <label><%= packageType %></label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>LegalEntity:</label>
+                    </div>
+                    <div class="form-group-ans">
+                        <label><%= legalEntity %></label>
+                    </div>
+                </div>
+                <div class="form-row">
+                	<div class="form-group">
+                        <label>Location:</label>
+                    </div>
+                    <div class="form-group-ans">
+                        <label><%= location %></label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>QR Code:</label>
+                    </div>
+                    <div class="form-group-ans">
+                        <div id="qrcode"></div>
+                        <label><%= dxQrCodeID %></label>
+                    </div>
+                </div>
+                
+                <div class="form-submit">
+                    <input type="reset" name="back" id="back" url="/packer/addteabag" class="cancel" value="Back"/>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- JS -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/js/qrcode.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var qrcode = new QRCode(document.getElementById("qrcode"), {
+                text: '<%= dxQrCodeID %>',
+                width: 200,
+                height: 200,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+    </script>s
+</body>
+</html>

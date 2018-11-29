@@ -86,7 +86,7 @@ NodeApp.prototype.init = function () {
         res.render('retailshop.html');
     });
 
-    this.app.post('/retailshop', this.packerPost.bind(this));
+    this.app.post('/retailshop', this.retailPost.bind(this));
 
     this.app.get('/retailshopSubmited', (req,res) => {
         res.render('retailshopResult.html');
@@ -205,9 +205,55 @@ NodeApp.prototype.packerPost = function (req,res) {
 }
 
 NodeApp.prototype.addTeaBagPost = function (req,res) {
-    console.log(req.body);
-    // req.body.email == 
-    res.redirect("/harvesterSubmited");
+    console.log("Add tea bag request", req.body);
+    // private String dxQrCodeID;
+
+	// private String dQRcodeID;
+	// private String bBatchNo;
+    // private String dBatchNo;
+    
+    // private String weight; // e.g. 15000 g
+    
+    // private String location;
+	// private String packageType;
+	// private String producerID;
+    // private String legalEntity1;
+
+    let aRes = this.apiConnector.getProductBatch(this.nodeD, req.body.packerQRCodeId);
+    aRes.then((response) => {
+        let packer = response.data;
+
+        console.log("Response packer", packer);
+        let teabag = {};
+
+        teabag.dQRcodeID = req.body.packerQRCodeId;
+        teabag.bbatchNo = packer.bbatchNo;
+        teabag.dbatchNo = packer.dbatchNo;
+        teabag.location = packer.location;
+        teabag.producerID = packer.producerID;
+        teabag.legalEntity = packer.legalEntity;
+        // teabag.userID = teabag.userID
+        teabag.weight = req.body.weight;
+        teabag.productName = req.body.productName;
+        teabag.productID = req.body.productID;
+        teabag.packageType = req.body.packageType;
+
+        let teabagRes = this.apiConnector.addTeaBag(teabag);
+
+        teabagRes.then((response) => {
+            console.log("Teabag added", response.data);
+            res.render("teabagAdded.html", response.data);
+        }).catch((error) => {
+            // handle error
+            console.log(error.response.data);
+            res.render("error.html", error.response.data);
+        });
+    })
+    .catch((error) => {
+        // handle error
+        console.log(error.response.data);
+        res.render("error.html", error.response.data);
+    });
 }
 
 NodeApp.prototype.littleScan = function (req,res) {
@@ -254,6 +300,32 @@ NodeApp.prototype.littleCreateProductBatch = function (req,res) {
         console.log(error.response.data);
         res.render("error.html", error.response.data);
     });
+}
+
+NodeApp.prototype.retailPost = function (req,res) {
+    console.log("Create tea cup", req.body);
+
+    let aRes = this.apiConnector.getProductBatch(undefined, req.body.dxQRCodeId);
+    aRes.then((response) => {
+        // res.render("littlepoInfo.html", response.data);
+        let createTeaCupRes = this.apiConnector.trackProductAtShop(req.body);
+        createTeaCupRes.then((resInner) => {
+            console.log("Receive Packer response",resInner.data);
+            resInner.data.productName = response.data.productName;
+            res.render("littlepoResult.html", resInner.data);
+        }).catch((error) => {
+            // handle error
+            console.log(error.response.data);
+            error.response.data.backURL="/littlepo";
+            res.render("error.html", error.response.data);
+        });
+    })
+    .catch((error) => {
+        // handle error
+        console.log(error.response.data);
+        res.render("error.html", error.response.data);
+    });
+
 }
 
 NodeApp.prototype.bootup = function() {

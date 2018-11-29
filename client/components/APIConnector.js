@@ -136,6 +136,29 @@ APIConnector.prototype.trackProductLittlepo = function (lpo) {
     return axios.post(phTrackingURL, data);
 }
 
+APIConnector.prototype.addTeaBag = function (teabag) {
+    // console.log("Request to receive package for littlepo", lpo);
+    // bytes32 _qrCodeId,
+    // bytes32 _location,
+    // bytes32 _producerId,
+    // bytes32 _weight 
+    // teabag.location = "21.187630,105.781601";
+    // teabag.producerID = "Little01";
+    teabag.userID = "DTUser01";
+
+    let phTrackingURL = Util.sprintf("http://{0}:{1}{2}{3}{4}", this.host, this.port, this.trackingAPI, this.nodeD, "/teabag");
+    console.log("Add teabag", teabag, "url", phTrackingURL);
+    return axios.post(phTrackingURL, teabag);
+}
+
+APIConnector.prototype.trackProductAtShop = function(teacup) {
+    let phTrackingURL = Util.sprintf("http://{0}:{1}{2}{3}", this.host, this.port, this.trackingAPI, this.nodeI);
+    console.log("Create teacup", teacup, "url", phTrackingURL);
+    return axios.post(phTrackingURL, teacup);
+}
+
+
+
 APIConnector.prototype.getProductBatch = function (nodeName, qrCode) {
     let phTrackingURL = "";
     if(nodeName) {
