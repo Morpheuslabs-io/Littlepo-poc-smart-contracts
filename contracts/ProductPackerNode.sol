@@ -54,7 +54,7 @@ contract ProductPackerNode is BaseNode {
     // bytes32 _legalEntity
     function addTeaBagBatch(bytes32 _packerBatchQRId, bytes32[] bArgs) public onlyOperator returns (bool) {
         require(littlepoProductHistory != address(0), "Storage is not config yet");
-        require(bArgs.length == 10, "Incorrect parameter length, need to be 10");
+        require(bArgs.length == 11, "Incorrect parameter length, need to be 10");
         // require(productBatches[bArgs[0]] == address(0), "Package is already created");
         require(productBatches[_packerBatchQRId] != address(0), "Packer batch does not exist");
 
@@ -62,12 +62,13 @@ contract ProductPackerNode is BaseNode {
         require(pb != address(0), "dBatchNo does not exist");
 
 
-        TeaBag tb = new TeaBag (NODE_NAME, bArgs);
+        PackerBatch tb = new PackerBatch (NODE_NAME, bArgs);
 
         // add litlePohistory as operator
-        
+
         tb.addHistory(pb.nodeId(), pb.qrCodeId(), pb.createdTime());
         tb.transferOwnership(littlepoProductHistory);
+        productBatches[tb.qrCodeId()] = tb;
 
         littlepoProductHistory.updateTrackingInfo(_packerBatchQRId, tb);
         littlepoProductHistory.addChildForProductBatch(_packerBatchQRId, tb);

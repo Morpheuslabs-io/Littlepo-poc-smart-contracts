@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Littlepo UI</title>
+    <title>Retailshop UI</title>
 
     <!-- Font Icon -->
     <link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
@@ -18,7 +18,7 @@
 
         <div class="container">
             <form method="POST" class="appointment-form" id="appointment-form">
-                <h2>Littlepo receive result</h2>
+                <h2>Create teacup result</h2>
                 <div class="form-row">
                 	<div class="form-group">
                         <label>Node ID:</label>
@@ -40,7 +40,7 @@
                         <label>User ID:</label>
                     </div>
                     <div class="form-group-ans">
-                        <label><%= userID %></label>
+                        <label><%= producerID %></label>
                     </div>
                 </div>
                 <!-- <div class="form-row">
@@ -65,7 +65,7 @@
                     </div>
                     <div class="form-group-ans">
                         <div id="qrcode"></div>
-                        <label><%= gqrCodeID %></label>
+                        <label><%= iqrCodeID %></label>
                     </div>
                 </div>
                 <div class="form-row">
@@ -78,7 +78,7 @@
                 </div>
                 
                 <div class="form-submit">
-                    <input type="reset" name="cancel" id="back" url="/littlepo" class="cancel" value="Back" />
+                    <input type="reset" name="cancel" id="back" url="/retailshop" class="cancel" value="Back" />
                     <input type="reset" name="printQR" id="printQR" class="submit" value="Print QR Code" />
                 </div>
             </form>
@@ -92,7 +92,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             var qrcode = new QRCode(document.getElementById("qrcode"), {
-                text: '<%= gqrCodeID %>',
+                text: '<%= iqrCodeID %>',
                 width: 200,
                 height: 200,
                 colorDark : "#000000",

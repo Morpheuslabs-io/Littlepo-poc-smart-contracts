@@ -12,22 +12,42 @@ const APIConnector = function () {
     this.nodeD = "node-d";
     this.nodeG = "node-g";
     this.nodeI = "node-i";
-    
-    // this.USER_KEY = "LOGIN_USER";
+
+    this.users = new Map();
+
+    this.init();
 }
 
-APIConnector.prototype.signUp = function () {
 
+APIConnector.prototype.init = function () {
+    let harvester = {};
+    harvester.id = "HV0001";
+    harvester.password = "password";
+    harvester.homeURL = "/harvester";
+
+    let packer = {};
+    packer.id = "PK0001";
+    packer.password = "password";
+    packer.homeURL = "/packer";
+
+    let littepo = {};
+    littepo.id = "LP0001";
+    littepo.password = "password";
+    littepo.homeURL = "/littlepo";
+
+    let retail = {};
+    retail.id = "RS0001";
+    retail.password = "password";
+    retail.homeURL = "/retailshop";
+
+    this.users.set(harvester.id, harvester);
+    this.users.set(packer.id, packer);
+    this.users.set(littepo.id, littepo);
+    this.users.set(retail.id, retail);
 }
 
-APIConnector.prototype.login = function () {
-    // const user = {};
-    // user.id = "User01";
-    // user.name = "User 01";
-    // user.legalEntity = "LG01";
-
-    // Storage.setItem();
-
+APIConnector.prototype.login = function (user) {
+    return this.users.get(user.id);
 }
 
 APIConnector.prototype.logout = function () {

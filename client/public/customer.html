@@ -17,8 +17,8 @@
     <div class="main">
 
         <div class="container">
-            <form method="POST" class="appointment-form" id="appointment-form" action="customer">
-                <h2>Query Tracking Information</h2>
+            <form method="GET" class="appointment-form" id="appointment-form" action="tracking">
+                <h2>Query Product Tracking History</h2>
                 <div class="form-group-1">
                     <input type="text" name="qrCodeId" id="qrCodeId" placeholder="Please enter of scan QRCode of product" required />
                     <!-- <input type="text" name="nodeName" id="nodeName" placeholder="Node Name" required /> -->
@@ -32,9 +32,10 @@
                     </div>
                 </div>
                 <div class="form-submit">
-                    <input type="reset" name="Back" id="back" class="cancel" value="Back"/>
-                    <input type="reset" name="Scan" id="scan" class="cancel" value="Scan QRCode"/>
-                    <input type="submit" name="submit" id="submit" class="submit" value="Query Info" />
+                    <input type="reset" name="Scan" id="scan" class="cancel" value="Scan"/>
+                    <input type="submit" name="submit" id="submit" class="submit" value="View History" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="reset" name="login" id="login" class="submit" value="Login As Operator" />
                 </div>
             </form>
         </div>
@@ -46,5 +47,12 @@
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/littlepo.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#login").click(function() {
+                window.location.href = "/login";
+            });
+        });
+    </script>
 </body>
 </html>

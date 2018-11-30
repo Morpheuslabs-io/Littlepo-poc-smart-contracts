@@ -3,6 +3,7 @@
 const path  = require("path");
 const APIConnector  = require("./APIConnector");
 
+
 //starting point
 const NodeApp = function (app) {
     this.PORT = process.env.PORT || 3000;
@@ -19,7 +20,7 @@ const NodeApp = function (app) {
 NodeApp.prototype.init = function () {
 
     this.app.get('/', (req,res) => {
-        res.redirect('/login');
+        res.redirect('/tracking');
     });
 
     this.app.get('/login', (req,res) => {
@@ -92,11 +93,11 @@ NodeApp.prototype.init = function () {
         res.render('retailshopResult.html');
     });
 
-    this.app.get('/customer', (req,res) => {
-        res.render('customer.html');
-    });
+    // this.app.get('/tracking', (req,res) => {
+    //     res.render('customer.html');
+    // });
 
-    this.app.post('/customer', this.customerQuery.bind(this));
+    this.app.get('/tracking', this.customerQuery.bind(this));
 
 
     this.app.get('/productinfo', this.getProductInfo.bind(this));
@@ -105,9 +106,15 @@ NodeApp.prototype.init = function () {
 }
 
 NodeApp.prototype.login = function (req,res) {
-    // console.log(req);
-    // req.body.email == 
-    res.redirect('/menu');
+    console.log("Login info",req.body);
+
+    let user = this.apiConnector.login(req.body);
+    console.log("Logined", user);
+    if(!user) {
+        res.render("login.html", {error: "ID or Password is incorrect"});
+    }
+
+    res.redirect(user.homeURL);
 }
 
 NodeApp.prototype.getProductInfo = function (req,res) {
@@ -126,7 +133,11 @@ NodeApp.prototype.getProductInfo = function (req,res) {
 }
 
 NodeApp.prototype.customerQuery = function (req,res) {
-    let aRes = this.apiConnector.getTrackingHistory(req.body.qrCodeId);
+    if(!req.query.qrCodeId) {
+        res.render('customer.html');
+    }
+
+    let aRes = this.apiConnector.getTrackingHistory(req.query.qrCodeId);
     aRes.then((response) => {
         console.log("Get Tracking history response",response.data);
 
@@ -303,26 +314,42 @@ NodeApp.prototype.littleCreateProductBatch = function (req,res) {
 }
 
 NodeApp.prototype.retailPost = function (req,res) {
-    console.log("Create tea cup", req.body);
+    console.log("Retail post data", req.body);
 
-    let aRes = this.apiConnector.getProductBatch(undefined, req.body.dxQRCodeId);
+    let aRes = this.apiConnector.getProductBatch(this.nodeD, req.body.dxQRCodeId);
     aRes.then((response) => {
-        // res.render("littlepoInfo.html", response.data);
-        let createTeaCupRes = this.apiConnector.trackProductAtShop(req.body);
+        console.log("Receive teabag",response.data);
+        let teacup = {};
+        teacup.bBatchNo = response.data.bbatchNo;
+        teacup.dBatchNo = response.data.dbatchNo;
+        teacup.dxQrCodeID = req.body.dxQRCodeId;
+        teacup.productName = req.body.productName;
+        teacup.location = response.data.location;
+        teacup.productID = req.body.productId;
+        teacup.packageType = req.body.packageType;
+        teacup.producerID = 'RS0001';
+        teacup.containerID = 'CO0001';
+        teacup.containerType = 'BOX';
+        teacup.legalEntity = response.data.legalEntity;
+        teacup.qty = 1;
+        teacup.price = req.body.price;
+        teacup.waterTemperature = 100;
+
+        let createTeaCupRes = this.apiConnector.trackProductAtShop(teacup);
         createTeaCupRes.then((resInner) => {
             console.log("Receive Packer response",resInner.data);
             resInner.data.productName = response.data.productName;
-            res.render("littlepoResult.html", resInner.data);
+            res.render("retailshopResult.html", resInner.data);
         }).catch((error) => {
             // handle error
             console.log(error.response.data);
-            error.response.data.backURL="/littlepo";
+            error.response.data.backURL="/retailshop";
             res.render("error.html", error.response.data);
         });
     })
     .catch((error) => {
         // handle error
-        console.log(error.response.data);
+        console.log(error);
         res.render("error.html", error.response.data);
     });
 

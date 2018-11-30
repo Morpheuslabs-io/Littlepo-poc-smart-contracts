@@ -18,16 +18,16 @@
 
         <div class="container">
             <form method="POST" class="appointment-form" id="appointment-form">
-                <h2>RetailShop UI</h2>
+                <h2>Create tea cup Panel</h2>
                 <div class="form-group-1">
+                    <input type="text" name="dxQRCodeId" id="dxQRCodeId" placeholder="Teabag QRCode" required />
                 	<input type="text" name="productId" id="productId" placeholder="Product Id" required />
                     <input type="text" name="productName" id="productName" placeholder="Product Name" required/>
                     <input type="text" name="packageType" id="packageType" placeholder="Package Type" required/>
-
-                    <input type="text" name="dxQRCodeId" id="dxQRCodeId" placeholder="Teabag QRCode" required />
+                    <input type="text" name="price" id="price" placeholder="Price" required/>
                 </div>
                 <div class="form-submit">
-                    <input type="reset" name="cancel" id="cancel" class="cancel" value="Cancel" />
+                    <!-- <input type="reset" name="cancel" id="cancel" class="cancel" value="Cancel" /> -->
                     <input type="submit" name="submit" id="submit" class="submit" value="Submit" />
                 </div>
             </form>

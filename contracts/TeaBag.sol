@@ -1,8 +1,8 @@
 pragma solidity ^0.4.24;
 
-import "./BaseProduct.sol";
+import "./ProductBatch.sol";
 
-contract TeaBag is BaseProduct {
+contract TeaBag is ProductBatch {
     bytes32 public dBatchNo;
     // ==> args 1
     // bytes32 _nodeId, --> auto set
