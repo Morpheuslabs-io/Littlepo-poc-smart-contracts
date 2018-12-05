@@ -6,7 +6,7 @@ import "./PackerBatch.sol";
 import "./LittlepoBatch.sol";
 
 contract LittlepoNode is BaseNode {
-    bytes32 constant NODE_NAME = "LittlepoNode";
+    bytes32 constant NODE_NAME = "Littlepo";
     function getNodeName() public pure returns (bytes32){
         return NODE_NAME;
     }

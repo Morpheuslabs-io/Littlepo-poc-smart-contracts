@@ -5,7 +5,7 @@ import "./BaseProduct.sol";
 import "./BaseNode.sol";
 
 contract RetailShopNode is BaseNode {
-    bytes32 constant NODE_NAME = "RetailShop";
+    bytes32 constant NODE_NAME = "With You";
     function getNodeName() public pure returns (bytes32){
         return NODE_NAME;
     }

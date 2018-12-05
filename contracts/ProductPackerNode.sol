@@ -5,7 +5,7 @@ import "./PackerBatch.sol";
 import "./TeaBag.sol";
 
 contract ProductPackerNode is BaseNode {
-    bytes32 constant NODE_NAME = "PackerNode";
+    bytes32 constant NODE_NAME = "Pack";
     function getNodeName() public pure returns (bytes32){
         return NODE_NAME;
     }

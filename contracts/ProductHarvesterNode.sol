@@ -7,7 +7,7 @@ import "./LegalEntity.sol";
 import "./LittlepoProductHistory.sol";
 
 contract ProductHarvesterNode is BaseNode {
-    bytes32 constant NODE_NAME = "ProductHarvester";
+    bytes32 constant NODE_NAME = "Harvest";
     function getNodeName() public pure returns (bytes32){
         return NODE_NAME;
     }

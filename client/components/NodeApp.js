@@ -47,7 +47,7 @@ NodeApp.prototype.init = function () {
     });
 
     this.app.get('/packer/scanharvester', (req,res) => {
-        // this.scanHarvesterBox.bind(this));
+        // this.scanHarvesterBox.bind(this);
         res.render('scanharvester.html');
     });
 
@@ -140,7 +140,7 @@ NodeApp.prototype.customerQuery = function (req,res) {
     let aRes = this.apiConnector.getTrackingHistory(req.query.qrCodeId);
     aRes.then((response) => {
         console.log("Get Tracking history response",response.data);
-
+        response.qrCodeId = req.query.qrCodeId;
         res.render("queryResult.html", response);
     }).catch((error) => {
         // handle error
@@ -193,8 +193,9 @@ NodeApp.prototype.packerPost = function (req,res) {
         let packer = {};
         packer.bbatchNo = response.data.bbatchNo;
         packer.packageType = req.body.packageType;
-        packer.productID = req.body.productID;
-        packer.productName = req.body.productName;
+
+        packer.productId = req.body.productId;
+        // packer.productName = req.body.productName;
         packer.weight = req.body.weight;
 
         let createPackerRes = this.apiConnector.trackProductPacker(packer);
@@ -210,7 +211,7 @@ NodeApp.prototype.packerPost = function (req,res) {
     })
     .catch((error) => {
         // handle error
-        console.log(error.response.data);
+        console.log(error);
         res.render("error.html", error.response.data);
     });
 }
@@ -244,10 +245,9 @@ NodeApp.prototype.addTeaBagPost = function (req,res) {
         teabag.producerID = packer.producerID;
         teabag.legalEntity = packer.legalEntity;
         // teabag.userID = teabag.userID
-        teabag.weight = req.body.weight;
-        teabag.productName = req.body.productName;
-        teabag.productID = req.body.productID;
-        teabag.packageType = req.body.packageType;
+        teabag.weight = "100g";
+        teabag.productId = req.body.productId;
+        teabag.packageType = "bag";
 
         let teabagRes = this.apiConnector.addTeaBag(teabag);
 
@@ -323,9 +323,9 @@ NodeApp.prototype.retailPost = function (req,res) {
         teacup.bBatchNo = response.data.bbatchNo;
         teacup.dBatchNo = response.data.dbatchNo;
         teacup.dxQrCodeID = req.body.dxQRCodeId;
-        teacup.productName = req.body.productName;
+        // teacup.productName = req.body.productName;
         teacup.location = response.data.location;
-        teacup.productID = req.body.productId;
+        teacup.productId = req.body.productId;
         teacup.packageType = req.body.packageType;
         teacup.producerID = 'RS0001';
         teacup.containerID = 'CO0001';

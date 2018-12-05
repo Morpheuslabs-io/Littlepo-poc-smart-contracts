@@ -2,11 +2,13 @@
 
 const axios = require('axios');
 const Util = require('./Util');
+const ProductManager = require('./ProductManager');
 
 const APIConnector = function () {
     this.host = "localhost";
     this.port = 8080;
     this.trackingAPI= "/api/product/tracking/";
+    this.pm = new ProductManager();
 
     this.nodeB ="node-b";
     this.nodeD = "node-d";
@@ -58,21 +60,6 @@ APIConnector.prototype.querybyQRId = function () {
 
 }
 
-APIConnector.prototype.querybyBNo = function () {
-
-}
-
-APIConnector.prototype.getProductBatchDetail = function (pbId) {
-
-}
-
-APIConnector.prototype.generateQRCode = function () {
-
-}
-
-APIConnector.prototype.createProductBatch = function (nodeId, args) {
-
-}
 
 APIConnector.prototype.createProduct = function (args) {
 
@@ -87,6 +74,7 @@ APIConnector.prototype.getTrackingHistory = function (qrCodeId) {
 }
 
 APIConnector.prototype.trackProducyHarvester = function (harvester) {
+    console.log("Tracking harvester request", harvester);
     // const api = "/api/product/tracking/node-b";
     // "bbatchNo": "string",
     // "bqrCodeID": "string",
@@ -97,14 +85,16 @@ APIConnector.prototype.trackProducyHarvester = function (harvester) {
 
     const data = {};
 
-    data.legalEntity = "HV0001";
     data.location = "21.187630, 105.781601";
-    data.legalEntity = "LG0001";
-    data.producerID = "Harvester01";
-    data.userID = "User01";
+    data.legalEntity = "HarvesterCom01";
+    data.producerID = "HV0001";
+    data.userID = "HV0001";
     data.packageType = harvester.packageType;
-    data.productID = harvester.productID;
-    data.productName = harvester.productName;
+
+    let product = this.pm.getProduct(harvester.productId);
+    // console.log(product);
+    data.productID = product.id;
+    data.productName = product.name;
 
     let phTrackingURL = Util.sprintf("http://{0}:{1}{2}{3}", this.host, this.port, this.trackingAPI, this.nodeB);
     console.log("Post to",phTrackingURL);
@@ -128,12 +118,15 @@ APIConnector.prototype.trackProductPacker = function (packer) {
     data.userID = "User02";
     data.bbatchNo = packer.bbatchNo;
     data.packageType = packer.packageType;
-    data.productID = packer.productID;
-    data.productName = packer.productName;
     data.weight = packer.weight;
 
+    let product = this.pm.getProduct(packer.productId);
+    // console.log(product);
+    data.productID = product.id;
+    data.productName = product.name;
+
     let phTrackingURL = Util.sprintf("http://{0}:{1}{2}{3}", this.host, this.port, this.trackingAPI, this.nodeD);
-    console.log("Post to", phTrackingURL);
+    console.log("Post data", data,"to", phTrackingURL);
     return axios.post(phTrackingURL, data);
 }
 
@@ -165,6 +158,10 @@ APIConnector.prototype.addTeaBag = function (teabag) {
     // teabag.location = "21.187630,105.781601";
     // teabag.producerID = "Little01";
     teabag.userID = "DTUser01";
+    let product = this.pm.getProduct(teabag.productId);
+    // console.log(product);
+    teabag.productID = product.id;
+    teabag.productName = product.name;
 
     let phTrackingURL = Util.sprintf("http://{0}:{1}{2}{3}{4}", this.host, this.port, this.trackingAPI, this.nodeD, "/teabag");
     console.log("Add teabag", teabag, "url", phTrackingURL);
@@ -172,6 +169,11 @@ APIConnector.prototype.addTeaBag = function (teabag) {
 }
 
 APIConnector.prototype.trackProductAtShop = function(teacup) {
+    let product = this.pm.getProduct(teacup.productId);
+    // console.log(product);
+    teacup.productID = product.id;
+    teacup.productName = product.name;
+
     let phTrackingURL = Util.sprintf("http://{0}:{1}{2}{3}", this.host, this.port, this.trackingAPI, this.nodeI);
     console.log("Create teacup", teacup, "url", phTrackingURL);
     return axios.post(phTrackingURL, teacup);

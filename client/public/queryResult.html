@@ -4,45 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Harvester UI</title>
+    <title>Littlepo Query</title>
 
     <!-- Font Icon -->
-    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
 
     <!-- Main css -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-
     <div class="main">
         <div class="container">
             <form method="POST" class="appointment-form" id="appointment-form">
-                <h2>Product Tracking History</h2>
-                <% for(var i=0; i < data.length; i++) { %>
+                <h2>Product Query</h2>
+                <div class="form-row">
+                	<div class="form-group">
+                        <label>Product:</label>
+                    </div>
+                    <div class="form-group-ans">
+                        <label><%= qrCodeId %></label>
+                    </div>
+                </div>
+                <div class="form-row">
+                	<div class="form-group-all">
+                        <label>Where did the tea come from?</label>
+                    </div>
+                </div>
+                <% for(let i = data.length - 1; i >= 0 ; i--) { %>
+                    <% if (i > 0) { %>
+                    <div class="form-row arrow">
+                    <% } else  {%>
                     <div class="form-row">
-                        <!-- <div class="form-group">
-                            <label>Node ID:</label>
-                        </div> -->
-                        <div class="form-group">
-                            <label><%= data[i].nodeID %></label>
+                    <% } %>
+                        <div class="form-group-littlepo">
+                            <label class="color_link"><a href="http://localhost:3000/productinfo?qrCodeId=<%= data[i].qrCodeID %>"><%= data[i].nodeID %></a></label>
                         </div>
                         <div class="form-group-ans">
-                            <a href="http://localhost:3000/productinfo?qrCodeId=<%= data[i].qrCodeID %>" target="_blank"><%= data[i].createTime %></a>
+                            <label><%= data[i].createTime %></label>
                         </div>
                     </div>
-                 <% } %>
-
+                <% } %>
                 <div class="form-submit">
-                    <input type="reset" name="cancel" id="back" url="/" class="cancel" value="New Query"/>
+                    <input type="reset" name="cancel" id="back" url="/" class="submit" value="New Query"/>
                 </div>
             </form>
         </div>
 
     </div>
+
     <!-- JS -->
     <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/js/qrcode.min.js"></script>
     <script src="/js/main.js"></script>
-    
 </body>
 </html>
