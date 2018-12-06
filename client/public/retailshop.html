@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Harvester UI</title>
+    <title>Selling Tea UI</title>
 
     <!-- Font Icon -->
     <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
@@ -21,7 +21,7 @@
                 <h2>Create tea cup Panel</h2>
                 <div class="form-group-1">
                     <input type="text" name="dxQRCodeId" id="dxQRCodeId" placeholder="Teabag QRCode" required />
-                    <input type="text" name="price" id="price" placeholder="Price" required/>
+                    <input type="number" name="price" id="price" placeholder="Price (in SGD)" required/>
                 </div>
                 <div class="form-group-1">
                     <div class="form-group-ans">
@@ -50,6 +50,8 @@
                 <div class="form-submit">
                     <input type="reset" name="Scan" id="scan" class="cancel" value="Scan QRCode"/>
                     <input type="submit" name="submit" id="submit" class="submit" value="Submit" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="reset" name="logout" id="logout" class="submit" value="Logout" />
                 </div>
             </form>
         </div>

@@ -21,7 +21,11 @@
                 <h2>Little receive tea package</h2>
                 <div class="form-group-1">
                     <input type="text" name="qrCodeId" id="qrCodeId" placeholder="Packer QRCode" required />
-                    <input type="text" name="weight" id="weight" placeholder="Package weight" required />
+                    <input type="number" name="weight" id="weight" placeholder="Package weight" required style="width: 40%"/>
+                    <select name="weightType" id="weightType" style="width: 20%;">
+                        <option value="KG">KG</option>
+                        <option value="G">G</option>
+                    </select>
                 </div>
                 <div class="form-group-1">
                     <div class="video-group">
@@ -34,6 +38,8 @@
                 <div class="form-submit">
                     <input type="reset" name="Scan" id="scan" class="cancel" value="Scan QRCode"/>
                     <input type="submit" name="submit" id="submit" class="submit" value="Submit" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="reset" name="logout" id="logout" class="submit" value="Logout" />
                 </div>
             </form>
         </div>

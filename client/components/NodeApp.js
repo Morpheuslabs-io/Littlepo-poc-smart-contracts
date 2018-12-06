@@ -196,7 +196,7 @@ NodeApp.prototype.packerPost = function (req,res) {
 
         packer.productId = req.body.productId;
         // packer.productName = req.body.productName;
-        packer.weight = req.body.weight;
+        packer.weight = req.body.weight+req.body.weightType;
 
         let createPackerRes = this.apiConnector.trackProductPacker(packer);
         createPackerRes.then((resInner) => {
@@ -245,7 +245,7 @@ NodeApp.prototype.addTeaBagPost = function (req,res) {
         teabag.producerID = packer.producerID;
         teabag.legalEntity = packer.legalEntity;
         // teabag.userID = teabag.userID
-        teabag.weight = "100g";
+        teabag.weight = "100G";
         teabag.productId = req.body.productId;
         teabag.packageType = "bag";
 
@@ -289,7 +289,7 @@ NodeApp.prototype.littleCreateProductBatch = function (req,res) {
     let aRes = this.apiConnector.getProductBatch(this.nodeD, req.body.qrCodeId);
     aRes.then((response) => {
         let lpo = {};
-        lpo.weight = req.body.weight;
+        lpo.weight = req.body.weight + req.body.weightType;
         lpo.dQRCodeId = req.body.qrCodeId;
         
         // console.log("response", response.data);

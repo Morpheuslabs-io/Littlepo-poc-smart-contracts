@@ -21,7 +21,11 @@
                 <h2>Packer UI</h2>
                 <div class="form-group-1">
                     <input type="text" value ="<%= qrCodeId %>" name="qrCodeId" id="qrCodeId" placeholder="B Node QRCode" required readonly/>
-                    <input type="text" name="weight" id="weight" placeholder="Package Weight" required/>
+                    <input type="number" name="weight" id="weight" placeholder="Package Weight" required style="width: 40%"/>
+                    <select name="weightType" id="weightType" style="width: 20%;">
+                        <option value="KG">KG</option>
+                        <option value="G">G</option>
+                    </select>
                     
                     <!-- <input type="text" name="productID" id="productID" placeholder="Product Id" required /> -->
                     <!-- <input type="text" name="productName" id="productName" placeholder="Product Name" required/> -->
