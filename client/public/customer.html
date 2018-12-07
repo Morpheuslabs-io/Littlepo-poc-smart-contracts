@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Littpo UI</title>
+    <title>Littlepo Query</title>
 
     <!-- Font Icon -->
     <link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
@@ -18,7 +18,7 @@
 
         <div class="container">
             <form method="GET" class="appointment-form" id="appointment-form" action="tracking">
-                <h2>Query Product Tracking History</h2>
+                <h2>Scan QR Code</h2>
                 <div class="form-group-1">
                     <input type="text" name="qrCodeId" id="qrCodeId" placeholder="Please enter of scan QRCode of product" required />
                     <!-- <input type="text" name="nodeName" id="nodeName" placeholder="Node Name" required /> -->
@@ -33,7 +33,7 @@
                 </div>
                 <div class="form-submit">
                     <input type="reset" name="Scan" id="scan" class="cancel" value="Scan"/>
-                    <input type="submit" name="submit" id="submit" class="submit" value="View History" />
+                    <!-- <input type="submit" name="submit" id="submit" class="submit" value="View History" /> -->
                     <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
                     <!-- <input type="reset" name="login" id="login" class="submit" value="Login As Operator" /> -->
                 </div>
@@ -46,11 +46,28 @@
     <script type="text/javascript" src="/js/instascan.min.js"></script>
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/js/main.js"></script>
-    <script src="/js/littlepo.js"></script>
+    <!-- <script src="/js/littlepo.js"></script> -->
     <script type="text/javascript">
-        $(document).ready(function () {
-            $("#login").click(function() {
-                window.location.href = "/login";
+        let scanner = new Instascan.Scanner({ 
+            video: document.getElementById('preview') 
+        });
+        scanner.addListener('scan', function (content) {
+            // query information from blockchain
+            $("#qrCodeId").val(content);
+            scanner.stop();
+
+            $("#appointment-form").submit();
+
+        });
+        $("#scan").click(()=> {
+            Instascan.Camera.getCameras().then(function (cameras) {
+                if (cameras.length > 0) {
+                    scanner.start(cameras[0]);
+                } else {
+                    console.error('No cameras found.');
+                }
+            }).catch(function (e) {
+                console.error(e);
             });
         });
     </script>

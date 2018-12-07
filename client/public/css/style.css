@@ -337,7 +337,7 @@ display-flex {
   background: url(../images/arrow.jpg) no-repeat 15px 10px }
   
   .form-row .form-group {
-  width: 25%;
+  width: 40%;
   padding: 10px 15px; }
   
   .form-row .form-group-all {
@@ -388,8 +388,12 @@ display-flex {
   max-width: 100%; } }
   @media screen and (max-width: 480px) {
   .appointment-form {
-  padding: 50px 30px 70px 30px; } }  
+  padding: 50px 30px 30px 30px; } }  
 
 video {
   background-color: #CBCBCB;
+}
+
+.appointment-form h2{
+  text-align: center;
 }
