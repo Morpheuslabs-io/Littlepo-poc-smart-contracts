@@ -17,9 +17,10 @@
     <div class="main">
 
         <div class="container">
+            <div class="logo"><img src="/images/logo.jpeg"/></div>
             <form method="POST" class="appointment-form" id="appointment-form">
                 <h2>Login</h2>
-                <div class="form-group-1">
+                <div class="form-group-1" style="text-align: center;">
                     <% if (locals.error) { %>
                     <div class="form-row">
                         <!-- <div class="form-group">
@@ -30,10 +31,10 @@
                         </div>
                     </div>
                     <% } %>
-                	<input type="text" name="id" id="id" placeholder="User ID" required />
-                    <input type="password" class="form-input" name="password" id="password" placeholder="Password"/>
+                	<input type="text" name="id" id="id" placeholder="User ID" required style="width: 250px;"/>
+                    <input type="password" class="form-input" name="password" id="password" placeholder="Password"  style="width: 250px;"/>
                 </div>
-                <div class="form-submit">
+                <div class="form-submit" style="text-align: center;">
                     <!-- <input type="reset" name="cancel" id="cancel" class="cancel" value="Cancel" /> -->
                     <input type="submit" name="submit" id="submit" class="submit" value="Submit" />
                 </div>

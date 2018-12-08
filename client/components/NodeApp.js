@@ -23,6 +23,13 @@ NodeApp.prototype.init = function () {
         res.redirect('/tracking');
     });
 
+    this.app.get('/test', (req,res) => {
+        res.render("test.html")
+    });
+    this.app.get('/test1', (req,res) => {
+        res.render("test1.html")
+    });
+
     this.app.get('/login', (req,res) => {
         res.render('login.html');
     });

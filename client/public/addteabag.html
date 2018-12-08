@@ -17,17 +17,18 @@
     <div class="main">
 
         <div class="container">
+            <div class="logo"><img src="/images/logo.jpeg"/></div>
             <form method="POST" class="appointment-form" id="appointment-form">
                 <h2>Add teabag UI</h2>
                 <div class="form-group-1">
-                    <input type="text" name="packerQRCodeId" id="packerQRCodeId" placeholder="Scan Packer QRCode" required />
+                    <input type="text" name="packerQRCodeId" id="packerQRCodeId" placeholder="Scan Packer QRCode" required style="width: 250px;"/>
                     <!-- <input type="text" name="packerQRCodeId" id="packerQRCodeId" placeholder="Packer QRCode" required /> -->
                     <!-- <input type="text" name="productID" id="productID" placeholder="Product ID" required/> -->
                     <div class="form-group-1">
                         <div class="form-group-ans">
                             <label>Product</label>
                         </div>
-                        <select name="productId" id="productId">
+                        <select name="productId" id="productId" style="width: 250px;">
                             <option value="TB0001">Tea bag</option>
                         </select>
                     </div>
@@ -38,13 +39,11 @@
                     <div class="video-group">
                         <video id="preview" style="min-height: 100%;width: 250px; border: solid 1px gray;"></video>
                     </div>
-                    <div class="form-group-ans">
-                        <div id="scanResult"></div>
-                    </div>
                 </div>
                 <div class="form-submit">
                     <input type="reset" name="back" id="back" class="cancel" url="/packer" value="Cancel" />
-                    <input type="reset" name="Scan" id="scan" class="cancel" value="Scan QRCode"/>
+                    <input type="reset" name="Scan" id="scan" class="submit" value="Scan"/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="submit" name="submit" id="submit" class="submit" value="Submit" />
                 </div>
             </form>

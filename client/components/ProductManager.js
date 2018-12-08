@@ -28,7 +28,7 @@ ProductManager.prototype.init = function () {
 
     product = {};
     product.id = "TC0001";
-    product.name = "Tea Cup";
+    product.name = "Milk Tea";
 
     this.products.set(product.id, product);
 

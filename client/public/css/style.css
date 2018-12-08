@@ -166,6 +166,7 @@ display-flex {
   select {
     height: 35px;
     font-size: 13px;
+    width: 250px;
   }
   
   input[type=checkbox]:not(old) {
@@ -377,7 +378,8 @@ display-flex {
   color:#A4A4A4; }
   
   .form-submit {
-  margin-top:20px; }
+  margin-top:20px; 
+  }
   
   @media screen and (max-width: 1024px) {
   .container {
@@ -388,7 +390,7 @@ display-flex {
   max-width: 100%; } }
   @media screen and (max-width: 480px) {
   .appointment-form {
-  padding: 50px 30px 30px 30px; } }  
+  padding: 10px 30px 30px 30px; } }  
 
 video {
   background-color: #CBCBCB;
@@ -396,4 +398,9 @@ video {
 
 .appointment-form h2{
   text-align: center;
+}
+.logo {
+  width: 30px;
+  height: 30px;
+  padding: 5px;
 }
