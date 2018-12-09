@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>LittlePo UI</title>
 
     <!-- Font Icon -->
@@ -103,8 +102,8 @@
                 <input type="hidden" name="qrCodeId" value="<%= dqrCodeID %>" />
                 <input type="hidden" name="weight" value="<%= weight %>" />
                 <div class="form-submit">
-                    <input type="reset" name="cancel" id="cancel" class="cancel" value="Cancel" />
-                    <input type="submit" name="submit" id="submit" class="submit" value="Confirm Receive" />
+                    <button type="reset" name="cancel" id="cancel" class="cancel">Cancel</button>
+                    <button type="submit" name="submit" id="submit" class="submit">Confirm Receive</button>
                 </div>
             </form>
         </div>
