@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
     <title>Littlepo Food Tracking</title>
 
     <!-- Font Icon -->
@@ -24,7 +26,7 @@
                 </div>
                 <div class="form-group-1" style="text-align: center;">
                     <div class="video-group">
-                        <video id="preview" style="min-height: 100%;width: 250px; border: solid 1px gray;"></video>
+                        <video id="preview" class="video-back" playsinline style="min-height: 100%;width: 250px; border: solid 1px gray;"></video>
                     </div>
                 </div>
                 <div class="form-submit" style="text-align: center;">
@@ -41,6 +43,7 @@
     </div>
 
     <!-- JS -->
+    <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     <script type="text/javascript" src="/js/instascan.min.js"></script>
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/js/main.js"></script>
