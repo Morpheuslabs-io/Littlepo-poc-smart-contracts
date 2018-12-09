@@ -49,7 +49,7 @@ contract LittlepoProductHistory is UserRole {
 
     function getProductBatchByQR(bytes32 _qrCodeId) public view returns (bytes32[]) {
         BaseProduct ph = products[_qrCodeId];
-        bytes32[] memory ret = new bytes32[](9);
+        bytes32[] memory ret = new bytes32[](8);
         ret[0] = ph.bBatchNo();
         ret[1] = ph.productName();
         ret[2] = ph.location();
@@ -58,7 +58,7 @@ contract LittlepoProductHistory is UserRole {
         ret[5] = ph.containerId();
         ret[6] = ph.containerType();
         ret[7] = ph.legalEntity();
-        ret[8] = ph.createdTime();
+        // ret[8] = ph.createdTime();
 
         return ret;
     }
