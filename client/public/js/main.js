@@ -5,6 +5,7 @@
     applyCancelAction();
     applyBackAction();
     applyLogoutAction();
+    applyPrintQR();
 })(jQuery);
 
 function applyCancelAction() {
@@ -26,31 +27,8 @@ function applyLogoutAction() {
         window.location.href = '/login';
     });
 }
-
-function applySelectBoxType(selectorId) {
-    let newSelector = "new"+selectorId;
-
-    let newSelectorBox = $("<ul></ul>").addClass("list-item").attr("id", newSelector).attr("name", newSelector);
-    let selector = "#"+selectorId;
-    $(selector).parent().append(newSelectorBox);
-    
-    $(selector+' option').each(function(){
-        newSelectorBox.append('<li value="' + $(this).val() + '">'+$(this).text()+'</li>');
-    });
-
-    $(selector).remove();
-
-    newSelectorBox.attr('id', selectorId);
-    $(selector+' li').first().addClass('init');
-    $(selector).on("click", ".init", function() {
-        $(this).closest(selector).children('li:not(.init)').toggle('slow');
-    });
-
-    var allOptions = $(selector).children('li:not(.init)');
-    $(selector).on("click", "li:not(.init)", function() {
-        allOptions.removeClass('selected');
-        $(this).addClass('selected');
-        $(selector).children('.init').html($(this).html());
-        allOptions.toggle('slow');
+function applyPrintQR() {
+    $("#printQR").click(function() {
+        $("#qrcode").print();
     });
 }
