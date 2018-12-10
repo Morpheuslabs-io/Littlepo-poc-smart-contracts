@@ -130,6 +130,7 @@ NodeApp.prototype.getProductInfo = function (req,res) {
     let aRes = this.apiConnector.getProductBatch(nodeName, req.query.qrCodeId);
     aRes.then((response) => {
         console.log("Get product info", response.data);
+        response.data.trackingQRCode = req.query.trackingQRCode;
         res.render("productInfo.html", response.data);
     })
     .catch((error) => {
