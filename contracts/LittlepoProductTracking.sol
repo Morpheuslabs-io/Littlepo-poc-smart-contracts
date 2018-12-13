@@ -31,7 +31,7 @@ contract LittlepoProductTracking is UserRole {
         return littlepoHistory.getProductBatchByBN(_batchNo, _nodeId);
     }
 
-    function getProductBatchByQR(bytes32 _qrCodeId) public view returns (bytes32[]) {
+    function getProductBatchByQR(bytes32 _qrCodeId) public view returns (bytes32[], uint) {
         return littlepoHistory.getProductBatchByQR(_qrCodeId);
     }
 

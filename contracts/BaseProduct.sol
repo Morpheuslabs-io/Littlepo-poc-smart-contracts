@@ -13,7 +13,9 @@ contract BaseProduct is UserRole{
     bytes32 public containerId;
     bytes32 public containerType;
     bytes32 public legalEntity;
-
+    bytes32 public txHash;
+    
+    uint public harvestTime;
     uint public createdTime;
     uint public dateTimeIn;
     uint public dateTimeOut;
@@ -39,5 +41,9 @@ contract BaseProduct is UserRole{
     
     function setDateTimeOut(uint _timeOut) public onlyOperator returns(bool){
         dateTimeOut = _timeOut;
+    }
+
+    function setTxHash(bytes32 _txHash) public onlyOperator returns(bool) {
+        txHash = _txHash;
     }
 }

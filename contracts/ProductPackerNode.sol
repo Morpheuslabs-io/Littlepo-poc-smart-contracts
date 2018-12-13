@@ -22,7 +22,7 @@ contract ProductPackerNode is BaseNode {
     // bytes32 _producerId,
     // bytes32 _weight
 
-    function createProductBatch(bytes32[] bArgs) external onlyOperator returns (bool){
+    function createProductBatch(bytes32[] bArgs, uint _harvestTime) external onlyOperator returns (bool){
         require(littlepoProductHistory != address(0), "Storage is not config yet");
         require(bArgs.length == 11, "Incorrect parameter length, need to be 11");
         require(productBatches[bArgs[0]] == address(0), "Package is already created");
@@ -30,7 +30,7 @@ contract ProductPackerNode is BaseNode {
         ProductBatch productBatch = previousNode.getProductBatchByBatchNo(bArgs[2])[0];
         require(productBatch != address(0), "bBatchNo does not exist");
 
-        PackerBatch pb = new PackerBatch (NODE_NAME, bArgs);
+        PackerBatch pb = new PackerBatch (NODE_NAME, bArgs, _harvestTime);
         // add litlePohistory as operator
         productBatches[pb.qrCodeId()] = pb;
         productLinks[pb.dBatchNo()].push(pb);
@@ -54,19 +54,18 @@ contract ProductPackerNode is BaseNode {
     // bytes32 _legalEntity
     function addTeaBagBatch(bytes32 _packerBatchQRId, bytes32[] bArgs) public onlyOperator returns (bool) {
         require(littlepoProductHistory != address(0), "Storage is not config yet");
-        require(bArgs.length == 11, "Incorrect parameter length, need to be 10");
+        require(bArgs.length == 11, "Incorrect parameter length, need to be 11");
         // require(productBatches[bArgs[0]] == address(0), "Package is already created");
         require(productBatches[_packerBatchQRId] != address(0), "Packer batch does not exist");
 
         ProductBatch pb = previousNode.getProductBatchByBatchNo(bArgs[2])[0];
         require(pb != address(0), "dBatchNo does not exist");
 
-
-        PackerBatch tb = new PackerBatch (NODE_NAME, bArgs);
+        ProductBatch packerBatch = productBatches[_packerBatchQRId];
+        PackerBatch tb = new PackerBatch (NODE_NAME, bArgs, packerBatch.harvestTime());
 
         // add litlePohistory as operator
-
-        tb.addHistory(pb.nodeId(), pb.qrCodeId(), pb.createdTime());
+        tb.addHistory(pb.nodeId(), pb.qrCodeId(), packerBatch.harvestTime());
         tb.transferOwnership(littlepoProductHistory);
         productBatches[tb.qrCodeId()] = tb;
 

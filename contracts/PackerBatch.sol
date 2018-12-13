@@ -19,7 +19,7 @@ contract PackerBatch is ProductBatch {
     // bytes32 _legalEntity,
     // bytes32 _producerId,
     // uibytes32nt _weight
-    constructor(bytes32 _nodeId, bytes32[] bArgs) public {
+    constructor(bytes32 _nodeId, bytes32[] bArgs, uint _harvestTime) public {
         nodeId = _nodeId;
         
         qrCodeId = bArgs[0];
@@ -33,6 +33,7 @@ contract PackerBatch is ProductBatch {
         legalEntity = bArgs[8];
         producerId = bArgs[9];
         weight = bArgs[10];
+        harvestTime = _harvestTime;
 
         createdTime = now;
         dateTimeIn = now;
