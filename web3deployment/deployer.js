@@ -228,8 +228,8 @@ async function testMainFlow(
     console.log("createProductBatch for Harvester Node",data,tx.transactionHash);
 
     // create product batch for packer
-    data = "dqrCodeIdNo1,dBatchNo01,productBNo01,D3,D4,D5,D6,D7,D8,D9,D10".split(",");
-    tx = await sendTx(productPackerNodeContract.methods.createProductBatch(arrToBytes32(data), new Date().getTime()));
+    data = "dqrCodeIdNo1,bQrCode01,dBatchNo01,D3,D4,D5,D6,D7,D8,D9,D10".split(",");
+    tx = await sendTx(productPackerNodeContract.methods.createProductBatch(arrToBytes32(data)));
     console.log("createProductBatch for Packer Node",data, tx.transactionHash);
 
     data = "dxqrCodeIdNo1,dBatchNo01,productBNo01,T3,T4,T5,T6,T7,T8,T9,T10".split(",");

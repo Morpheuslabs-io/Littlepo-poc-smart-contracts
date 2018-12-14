@@ -11,8 +11,8 @@ contract ProductPackerNode is BaseNode {
     }
     // input format
     // bytes32 _productBatchId,
+    // bytes32 _harvestQRBatchId,
     // bytes32 _dBatchNo,
-    // bytes32 _bBatchNo,
     // bytes32 _productName,
     // bytes32 _location,
     // bytes32 _productId,
@@ -22,15 +22,29 @@ contract ProductPackerNode is BaseNode {
     // bytes32 _producerId,
     // bytes32 _weight
 
-    function createProductBatch(bytes32[] bArgs, uint _harvestTime) external onlyOperator returns (bool){
+    function createProductBatch(bytes32[] bArgs) external onlyOperator returns (bool){
         require(littlepoProductHistory != address(0), "Storage is not config yet");
         require(bArgs.length == 11, "Incorrect parameter length, need to be 11");
         require(productBatches[bArgs[0]] == address(0), "Package is already created");
 
-        ProductBatch productBatch = previousNode.getProductBatchByBatchNo(bArgs[2])[0];
-        require(productBatch != address(0), "bBatchNo does not exist");
+        BaseProduct harvestProduct = littlepoProductHistory.getBaseProducByQR(bArgs[1]);
+        require(harvestProduct != address(0), "bBatchNo does not exist");
 
-        PackerBatch pb = new PackerBatch (NODE_NAME, bArgs, _harvestTime);
+        bytes32[] memory uArgs = new bytes32[](11);
+
+        uArgs[0] = bArgs[0];
+        uArgs[1] = harvestProduct.bBatchNo();
+        uArgs[2] = bArgs[2];
+        uArgs[3] = bArgs[3];
+        uArgs[4] = bArgs[4];
+        uArgs[5] = bArgs[5];
+        uArgs[6] = bArgs[6];
+        uArgs[7] = bArgs[7];
+        uArgs[8] = bArgs[8];
+        uArgs[9] = bArgs[9];
+        uArgs[10] = bArgs[10];
+
+        PackerBatch pb = new PackerBatch (NODE_NAME, uArgs, harvestProduct.createdTime());
         // add litlePohistory as operator
         productBatches[pb.qrCodeId()] = pb;
         productLinks[pb.dBatchNo()].push(pb);
@@ -78,8 +92,7 @@ contract ProductPackerNode is BaseNode {
         return true;
     }
 
-    function getProductBatchInfo(bytes32 _qrCodeId) 
-        public view returns(bytes32[]){
+    function getProductBatchInfo(bytes32 _qrCodeId) public view returns(bytes32[]){
 
         PackerBatch ph = PackerBatch(productBatches[_qrCodeId]);
         bytes32[] memory ret = new bytes32[](10);
