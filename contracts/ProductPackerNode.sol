@@ -11,7 +11,7 @@ contract ProductPackerNode is BaseNode {
     }
     // input format
     // bytes32 _productBatchId,
-    // bytes32 _harvestQRBatchId,
+    // bytes32 _bQRCodeId,
     // bytes32 _dBatchNo,
     // bytes32 _productName,
     // bytes32 _location,
