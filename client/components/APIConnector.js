@@ -117,6 +117,7 @@ APIConnector.prototype.trackProductPacker = function (packer) {
     data.producerID = "Packer01";
     data.userID = "User02";
     data.bbatchNo = packer.bbatchNo;
+    data.bqrCodeID = packer.bqrCodeID;
     data.packageType = packer.packageType;
     data.weight = packer.weight;
 

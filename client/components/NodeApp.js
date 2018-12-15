@@ -200,6 +200,7 @@ NodeApp.prototype.packerPost = function (req,res) {
 
         let packer = {};
         packer.bbatchNo = response.data.bbatchNo;
+        packer.bqrCodeID = response.data.bqrCodeID;
         packer.packageType = req.body.packageType;
 
         packer.productId = req.body.productId;

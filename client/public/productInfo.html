@@ -44,19 +44,27 @@
                     </div>
                 </div>
                 <div class="form-row">
-                        <div class="form-group">
-                            <label>Product:</label>
-                        </div>
-                        <div class="form-group-ans">
-                            <label><%= productName %></label>
-                        </div>
+                    <div class="form-group">
+                        <label>Product:</label>
                     </div>
+                    <div class="form-group-ans">
+                        <label><%= productName %></label>
+                    </div>
+                </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label>PackageId:</label>
                     </div>
                     <div class="form-group-ans">
                         <label><%= packageID %></label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Created Time</label>
+                    </div>
+                    <div class="form-group-ans">
+                        <label><%= !creationTime?"":creationTime %></label>
                     </div>
                 </div>
                 <div class="form-row">
@@ -73,6 +81,14 @@
                     </div>
                     <div class="form-group-ans">
                         <label><%= location %></label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>TxHash</label>
+                    </div>
+                    <div class="form-group-ans" style="word-break: break-all;">
+                        <label><%= !txHash?"":txHash %></label>
                     </div>
                 </div>
                 
