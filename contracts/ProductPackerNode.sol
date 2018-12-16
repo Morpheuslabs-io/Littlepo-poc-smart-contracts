@@ -76,7 +76,7 @@ contract ProductPackerNode is BaseNode {
         PackerBatch tb = new PackerBatch (NODE_NAME, bArgs, packerBatch.harvestTime());
 
         // add litlePohistory as operator
-        tb.addHistory(packerBatch.nodeId(), packerBatch.qrCodeId(), packerBatch.harvestTime());
+        tb.addHistory("Harvest", packerBatch.qrCodeId(), packerBatch.harvestTime());
         tb.transferOwnership(littlepoProductHistory);
         productBatches[tb.qrCodeId()] = tb;
 
