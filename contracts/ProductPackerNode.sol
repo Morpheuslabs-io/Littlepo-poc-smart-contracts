@@ -30,7 +30,7 @@ contract ProductPackerNode is BaseNode {
         BaseProduct harvestProduct = littlepoProductHistory.getBaseProducByQR(bArgs[1]);
         require(harvestProduct != address(0), "bBatchNo does not exist");
 
-        bytes32[] memory uArgs = new bytes32[](11);
+        bytes32[] memory uArgs = new bytes32[](12);
 
         uArgs[0] = bArgs[0];
         uArgs[1] = harvestProduct.bBatchNo();
@@ -43,6 +43,7 @@ contract ProductPackerNode is BaseNode {
         uArgs[8] = bArgs[8];
         uArgs[9] = bArgs[9];
         uArgs[10] = bArgs[10];
+        uArgs[11] = harvestProduct.qrCodeId();
 
         PackerBatch pb = new PackerBatch (NODE_NAME, uArgs, harvestProduct.createdTime());
         // add litlePohistory as operator
@@ -73,10 +74,29 @@ contract ProductPackerNode is BaseNode {
         require(productBatches[_packerBatchQRId] != address(0), "Packer batch does not exist");
 
         ProductBatch packerBatch = productBatches[_packerBatchQRId];
-        PackerBatch tb = new PackerBatch (NODE_NAME, bArgs, packerBatch.harvestTime());
+
+        BaseProduct harvestProduct = littlepoProductHistory.getBaseProducByQR(packerBatch.pNodeQRCodeId());
+        require(harvestProduct != address(0), "Harvest package does not exist");
+
+        bytes32[] memory uArgs = new bytes32[](12);
+
+        uArgs[0] = bArgs[0];
+        uArgs[1] = bArgs[1];
+        uArgs[2] = bArgs[2];
+        uArgs[3] = bArgs[3];
+        uArgs[4] = bArgs[4];
+        uArgs[5] = bArgs[5];
+        uArgs[6] = bArgs[6];
+        uArgs[7] = bArgs[7];
+        uArgs[8] = bArgs[8];
+        uArgs[9] = bArgs[9];
+        uArgs[10] = bArgs[10];
+        uArgs[11] = harvestProduct.qrCodeId();
+
+        PackerBatch tb = new PackerBatch (NODE_NAME, uArgs, harvestProduct.createdTime());
 
         // add litlePohistory as operator
-        tb.addHistory("Harvest", packerBatch.qrCodeId(), packerBatch.harvestTime());
+        tb.addHistory(harvestProduct.nodeId(), harvestProduct.qrCodeId(), harvestProduct.createdTime());
         tb.transferOwnership(littlepoProductHistory);
         productBatches[tb.qrCodeId()] = tb;
 

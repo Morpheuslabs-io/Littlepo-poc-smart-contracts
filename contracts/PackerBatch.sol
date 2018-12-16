@@ -33,6 +33,7 @@ contract PackerBatch is ProductBatch {
         legalEntity = bArgs[8];
         producerId = bArgs[9];
         weight = bArgs[10];
+        pNodeQRCodeId = bArgs[11];
         harvestTime = _harvestTime;
 
         createdTime = now;

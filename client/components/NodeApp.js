@@ -145,15 +145,26 @@ NodeApp.prototype.customerQuery = function (req,res) {
         res.render('customer.html');
     }
 
-    let aRes = this.apiConnector.getTrackingHistory(req.query.qrCodeId);
+    let nodeName;
+    let aRes = this.apiConnector.getProductBatch(nodeName, req.query.qrCodeId);
     aRes.then((response) => {
-        console.log("Get Tracking history response",response.data);
-        response.qrCodeId = req.query.qrCodeId;
-        res.render("queryResult.html", response);
+        let trackingRes = this.apiConnector.getTrackingHistory(req.query.qrCodeId);
+        trackingRes.then((trackRes) => {
+            console.log("Get Tracking history response", trackRes.data);
+
+            trackRes.trackingQRCode = req.query.qrCodeId;
+            trackRes.productName = response.data.productName;
+
+            res.render("queryResult.html", trackRes);
+        }).catch((error) => {
+            // handle error
+            console.log(error.response.data);
+            res.render("error.html", error.response.data);
+        });
     }).catch((error) => {
         // handle error
-        console.log(error.response.data);
-        res.render("error.html", error.response.data);
+        console.log(error);
+        res.render("error.html",error.response.data);
     });
 }
 

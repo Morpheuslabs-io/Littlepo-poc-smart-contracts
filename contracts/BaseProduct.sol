@@ -14,6 +14,7 @@ contract BaseProduct is UserRole{
     bytes32 public containerType;
     bytes32 public legalEntity;
     bytes32 public txHash;
+    bytes32 public pNodeQRCodeId;
     
     uint public harvestTime;
     uint public createdTime;

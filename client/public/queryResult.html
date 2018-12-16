@@ -22,7 +22,7 @@
                         <label>Product:</label>
                     </div>
                     <div class="form-group-ans">
-                        <label><%= qrCodeId %></label>
+                        <label><%= productName %></label>
                     </div>
                 </div>
                 <div class="form-row">
@@ -37,7 +37,7 @@
                     <div class="form-row">
                     <% } %>
                         <div class="form-group-littlepo">
-                            <label class="color_link"><a href="/productinfo?qrCodeId=<%= data[i].qrCodeID %>&trackingQRCode=<%= qrCodeId %>"><%= data[i].nodeID %></a></label>
+                            <label class="color_link"><a href="/productinfo?qrCodeId=<%= data[i].qrCodeID %>&trackingQRCode=<%= trackingQRCode %>"><%= data[i].nodeID %></a></label>
                         </div>
                         <div class="form-group-ans">
                             <label><%= data[i].createTime %></label>
