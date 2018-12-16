@@ -72,14 +72,11 @@ contract ProductPackerNode is BaseNode {
         // require(productBatches[bArgs[0]] == address(0), "Package is already created");
         require(productBatches[_packerBatchQRId] != address(0), "Packer batch does not exist");
 
-        ProductBatch pb = previousNode.getProductBatchByBatchNo(bArgs[2])[0];
-        require(pb != address(0), "dBatchNo does not exist");
-
         ProductBatch packerBatch = productBatches[_packerBatchQRId];
         PackerBatch tb = new PackerBatch (NODE_NAME, bArgs, packerBatch.harvestTime());
 
         // add litlePohistory as operator
-        tb.addHistory(pb.nodeId(), pb.qrCodeId(), packerBatch.harvestTime());
+        tb.addHistory(packerBatch.nodeId(), packerBatch.qrCodeId(), packerBatch.harvestTime());
         tb.transferOwnership(littlepoProductHistory);
         productBatches[tb.qrCodeId()] = tb;
 
