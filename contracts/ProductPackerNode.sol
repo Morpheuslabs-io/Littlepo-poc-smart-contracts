@@ -27,7 +27,7 @@ contract ProductPackerNode is BaseNode {
         require(bArgs.length == 11, "Incorrect parameter length, need to be 11");
         require(productBatches[bArgs[0]] == address(0), "Package is already created");
 
-        BaseProduct harvestProduct = littlepoProductHistory.getBaseProducByQR(bArgs[1]);
+        ProductBatch harvestProduct = littlepoProductHistory.getBaseProductByQR(bArgs[1]);
         require(harvestProduct != address(0), "bBatchNo does not exist");
 
         bytes32[] memory uArgs = new bytes32[](12);
@@ -75,7 +75,7 @@ contract ProductPackerNode is BaseNode {
 
         ProductBatch packerBatch = productBatches[_packerBatchQRId];
 
-        BaseProduct harvestProduct = littlepoProductHistory.getBaseProducByQR(packerBatch.pNodeQRCodeId());
+        ProductBatch harvestProduct = littlepoProductHistory.getBaseProductByQR(packerBatch.pNodeQRCodeId());
         require(harvestProduct != address(0), "Harvest package does not exist");
 
         bytes32[] memory uArgs = new bytes32[](12);

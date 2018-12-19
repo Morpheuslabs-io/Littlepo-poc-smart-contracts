@@ -1,7 +1,7 @@
 pragma solidity ^0.4.24;
 
 import "./BaseNode.sol";
-import "./BaseProduct.sol";
+// import "./BaseProduct.sol";
 import "./PackerBatch.sol";
 import "./LittlepoBatch.sol";
 
@@ -49,7 +49,7 @@ contract LittlepoNode is BaseNode {
         require(bArgs.length == 4, "Incorrect parameter length, need to be 4");
         require(productBatches[bArgs[0]] == address(0), "Package is already created");
 
-        PackerBatch baseProduct = PackerBatch(littlepoProductHistory.getBaseProducByQR(_packerQRCodeId));
+        PackerBatch baseProduct = PackerBatch(littlepoProductHistory.getBaseProductByQR(_packerQRCodeId));
         require(baseProduct != address(0), "Packer package does not exist");
         
         bytes32[] memory uArgs = new bytes32[](11);
@@ -73,7 +73,7 @@ contract LittlepoNode is BaseNode {
         bytes32[] memory childIds = littlepoProductHistory.getChildsOfProductBatch(_packerQRCodeId);
 
         for(uint i = 0; i < childIds.length; i++) {
-            BaseProduct child = littlepoProductHistory.getBaseProducByQR(childIds[i]);
+            ProductBatch child = littlepoProductHistory.getBaseProductByQR(childIds[i]);
             child.addHistory(NODE_NAME, ph.qrCodeId(), now);
         }
         

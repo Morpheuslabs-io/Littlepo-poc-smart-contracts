@@ -1,7 +1,7 @@
 pragma solidity ^0.4.24;
 
 import "./RetailShopBatch.sol";
-import "./BaseProduct.sol";
+// import "./BaseProduct.sol";
 import "./BaseNode.sol";
 
 contract RetailShopNode is BaseNode {
@@ -37,8 +37,10 @@ contract RetailShopNode is BaseNode {
         // add to center storage
         littlepoProductHistory.updateTrackingInfo(ph.qrCodeId(), ph);
         // littlepoProductHistory.updateTrackingInfo(ph.qrCodeId(), bp);
-        BaseProduct child = littlepoProductHistory.getBaseProducByQR(bArgs[1]);
+        ProductBatch child = littlepoProductHistory.getBaseProductByQR(bArgs[1]);
         child.addHistory(NODE_NAME, bArgs[0], now);
+
+        littlepoProductHistory.addChildForProductBatch(ph.qrCodeId(), child);
 
         return true;
     }
@@ -48,7 +50,7 @@ contract RetailShopNode is BaseNode {
         bytes32[] memory childIds = littlepoProductHistory.getChildsOfProductBatch(_qrCodeId);
 
         for(uint i = 0; i < childIds.length; i++) {
-            BaseProduct child = littlepoProductHistory.getBaseProducByQR(childIds[i]);
+            ProductBatch child = littlepoProductHistory.getBaseProductByQR(childIds[i]);
             child.addHistory(NODE_NAME, _qrCodeId, now);
         }
         

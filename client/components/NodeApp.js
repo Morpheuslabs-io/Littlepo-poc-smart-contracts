@@ -335,6 +335,10 @@ NodeApp.prototype.littleCreateProductBatch = function (req,res) {
 
 NodeApp.prototype.retailPost = function (req,res) {
     console.log("Retail post data", req.body);
+    let teaBagQRCode = req.body.dxQRCodeId;
+    if(!teaBagQRCode || !teaBagQRCode.startsWith('DX')) {
+        res.render("invalidqrcode.html");
+    }
 
     let aRes = this.apiConnector.getProductBatch(this.nodeD, req.body.dxQRCodeId);
     aRes.then((response) => {
