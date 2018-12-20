@@ -180,7 +180,10 @@ APIConnector.prototype.trackProductAtShop = function(teacup) {
     return axios.post(phTrackingURL, teacup);
 }
 
-
+APIConnector.prototype.getProductChild = function (qrCodeId) {
+    let url = Util.sprintf("http://{0}:{1}{2}?parentQrCodeID={3}", this.host, this.port, '/api/product/children', qrCodeId);
+    return axios.get(url);
+}
 
 APIConnector.prototype.getProductBatch = function (nodeName, qrCode) {
     let phTrackingURL = "";

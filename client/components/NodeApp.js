@@ -104,8 +104,9 @@ NodeApp.prototype.init = function () {
     //     res.render('customer.html');
     // });
 
-    this.app.get('/tracking', this.customerQuery.bind(this));
+    this.app.get('/tracking', this.queryProductItems.bind(this));
 
+    this.app.get('/producttrackinghistory', this.customerQuery.bind(this));
 
     this.app.get('/productinfo', this.getProductInfo.bind(this));
     
@@ -137,6 +138,37 @@ NodeApp.prototype.getProductInfo = function (req,res) {
         // handle error
         console.log(error.response.data);
         res.render("error.html", error.response.data);
+    });
+}
+
+NodeApp.prototype.queryProductItems = function (req,res) {
+    if(!req.query.qrCodeId) {
+        res.render('customer.html');
+        return;
+    }
+    // query product batch
+    let nodeName;
+    let aRes = this.apiConnector.getProductBatch(nodeName, req.query.qrCodeId);
+    aRes.then((response) => {
+        let itemRes = this.apiConnector.getProductChild(req.query.qrCodeId);
+        itemRes.then((childRes) => {
+            console.log("Get child of product", childRes.data);
+
+            // trackRes.trackingQRCode = req.query.qrCodeId;
+            childRes.productName = response.data.productName;
+            childRes.childQRCodeId = childRes.data[0];
+            // console.log(childRes);
+
+            res.render("queryResult_1.html", childRes);
+        }).catch((error) => {
+            // handle error
+            console.log(error.response.data);
+            res.render("error.html", error.response.data);
+        });
+    }).catch((error) => {
+        // handle error
+        console.log(error);
+        res.render("error.html",error.response.data);
     });
 }
 
