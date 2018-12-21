@@ -18,12 +18,12 @@
 
         <div class="container">
             <div class="logo"><img src="/images/logo.jpeg"/></div>
-            <form method="POST" class="appointment-form" id="appointment-form">
+            <form method="POST" class="appointment-form" id="appointment-form" style="text-align: center;">
                 <h2>Packer UI</h2>
                 <div class="form-group-1">
-                    <input type="text" value ="<%= qrCodeId %>" name="qrCodeId" id="qrCodeId" placeholder="B Node QRCode" required readonly/>
-                    <input type="number" name="weight" step="0.01" id="weight" placeholder="Package Weight" required style="width: 40%"/>
-                    <select name="weightType" id="weightType" style="width: 20%;">
+                    <input type="text" value ="<%= qrCodeId %>" name="qrCodeId" id="qrCodeId" placeholder="B Node QRCode" required readonly style="width: 250px;"/>
+                    <input type="number" name="weight" step="0.01" id="weight" placeholder="Package Weight" required style="width: 190px;"/>
+                    <select name="weightType" id="weightType" style="width: 60px;">
                         <option value="KG">KG</option>
                         <option value="G">G</option>
                     </select>
@@ -33,16 +33,16 @@
                     <!-- <input type="text" name="packageType" id="packageType" placeholder="Package Type" required/> -->
                 </div>
                 <div class="form-group-1">
-                    <div class="form-group-ans">
-                        <label>Product</label>
+                    <div style="width: 250px; display: inline-block;">
+                        <label style="text-align: left; width: 250px; display: inline-block;color:#A4A4A4;">Product</label>
                     </div>
                     <select name="productId" id="productId">
                         <option value="PK0001">Tea Package</option>
                     </select>
                 </div>
                 <div class="form-group-1">
-                    <div class="form-group-ans">
-                        <label>Package Type</label>
+                    <div style="width: 250px; display: inline-block;">
+                        <label style="text-align: left; width: 250px; display: inline-block;color:#A4A4A4;">Package Type</label>
                     </div>
                     <select name="packageType" id="packageType">
                         <option value="BOX">Box</option>

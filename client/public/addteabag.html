@@ -18,15 +18,15 @@
 
         <div class="container">
             <div class="logo"><img src="/images/logo.jpeg"/></div>
-            <form method="POST" class="appointment-form" id="appointment-form">
+            <form method="POST" class="appointment-form" id="appointment-form" style="text-align: center;">
                 <h2>Add teabag UI</h2>
                 <div class="form-group-1">
                     <input type="text" name="packerQRCodeId" id="packerQRCodeId" placeholder="Scan Packer QRCode" required style="width: 250px;"/>
                     <!-- <input type="text" name="packerQRCodeId" id="packerQRCodeId" placeholder="Packer QRCode" required /> -->
                     <!-- <input type="text" name="productID" id="productID" placeholder="Product ID" required/> -->
                     <div class="form-group-1">
-                        <div class="form-group-ans">
-                            <label>Product</label>
+                        <div style="width: 250px; display: inline-block;">
+                            <label style="text-align: left; width: 250px; display: inline-block;color:#A4A4A4;">Product</label>
                         </div>
                         <select name="productId" id="productId" style="width: 250px;">
                             <option value="TB0001">Tea bag</option>
@@ -41,10 +41,10 @@
                     </div>
                 </div>
                 <div class="form-submit">
-                    <button type="reset" name="back" id="back" class="cancel" url="/packer">Cancel</button>
+                    <button type="reset" name="back" id="back" class="cancel" url="/packer">Back</button>
                     <button type="reset" name="Scan" id="scan" class="submit">Scan</button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <button type="submit" name="submit" id="submit" class="submit">Submit</button>
+                    <button type="reset" name="logout" id="logout" class="submit" style="margin-right: 0px;">Logout</button>
                 </div>
             </form>
         </div>
